@@ -18,7 +18,7 @@ def prepare_text(text_file, word_limit):
                 for letter in word:
                     if (
                         (64 < ord(letter) < 91) or
-                        (96 < (ord(letter)) < 123) or
+                        (96 < ord(letter) < 123) or
                         (letter in polish_letters_list)
                             ):
                         new_word += letter
