@@ -1,11 +1,17 @@
 import random
 from .algorithms import (
     bubble_sort,
-    merge_sort,
     selection_sort,
+    merge_sort,
     quick_sort
 )
-from .time_testing import generate_table
+
+
+def generate_table(randomizer, size=10000):
+    table = []
+    for _ in range(size):
+        table.append(randomizer())
+    return table
 
 
 def test_generate_table_1():
@@ -43,17 +49,71 @@ def is_sorted(array):
 
 def test_bubble_sort_random_table():
     table = generate_table(lambda: random.randint(0, 10000), 600)
-    bubble_sort(table)
+    table = bubble_sort(table)
     assert is_sorted(table)
 
 
 def test_bubble_sort_gauss_table():
     table = generate_table(lambda: random.gauss(1000, 100), 500)
-    bubble_sort(table)
+    table = bubble_sort(table)
     assert is_sorted(table)
 
 
 def test_bubble_sort_sorted_table():
     table = range(800)
-    bubble_sort(table)
+    table = bubble_sort(table)
+    assert is_sorted(table)
+
+
+def test_selection_sort_random_table():
+    table = generate_table(lambda: random.randint(0, 10000), 600)
+    table = selection_sort(table)
+    assert is_sorted(table)
+
+
+def test_selection_sort_gauss_table():
+    table = generate_table(lambda: random.gauss(1000, 100), 500)
+    table = selection_sort(table)
+    assert is_sorted(table)
+
+
+def test_selection_sort_sorted_table():
+    table = list(range(800))
+    table = selection_sort(table)
+    assert is_sorted(table)
+
+
+def test_merge_sort_random_table():
+    table = generate_table(lambda: random.randint(0, 10000), 600)
+    table = merge_sort(table)
+    assert is_sorted(table)
+
+
+def test_merge_sort_gauss_table():
+    table = generate_table(lambda: random.gauss(1000, 100), 500)
+    table = merge_sort(table)
+    assert is_sorted(table)
+
+
+def test_merge_sort_sorted_table():
+    table = list(range(800))
+    table = merge_sort(table)
+    assert is_sorted(table)
+
+
+def test_quick_sort_random_table():
+    table = generate_table(lambda: random.randint(0, 10000), 600)
+    table = quick_sort(table)
+    assert is_sorted(table)
+
+
+def test_quick_sort_gauss_table():
+    table = generate_table(lambda: random.gauss(1000, 100), 500)
+    table = quick_sort(table)
+    assert is_sorted(table)
+
+
+def test_quick_sort_sorted_table():
+    table = list(range(800))
+    table = quick_sort(table)
     assert is_sorted(table)

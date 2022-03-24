@@ -34,7 +34,7 @@ def complete_random_test():
     print("Testing sorting of completely random tables")
 
     table = generate_table(lambda: random.randint(0, 10000))
-    print(f"Bubble sort: {test_time(bubble_sort, table.copy())}")
+    # print(f"Bubble sort: {test_time(bubble_sort, table.copy())}")
     print(f"Selection sort: {test_time(selection_sort, table.copy())}")
     print(f"Merge sort: {test_time(merge_sort, table.copy())}")
     print(f"Quick sort: {test_time(quick_sort, table.copy())}")
@@ -45,7 +45,7 @@ def gauss_test():
           " distribution")
 
     table = generate_table(lambda: random.gauss(5000, 2000))
-    print(f"Bubble sort: {test_time(bubble_sort, table.copy())}")
+    # print(f"Bubble sort: {test_time(bubble_sort, table.copy())}")
     print(f"Selection sort: {test_time(selection_sort, table.copy())}")
     print(f"Merge sort: {test_time(merge_sort, table.copy())}")
     print(f"Quick sort: {test_time(quick_sort, table.copy())}")
@@ -55,7 +55,7 @@ def sorted_test():
     print("Testing sorting of sorted tables")
 
     table = list(range(10000))
-    print(f"Bubble sort: {test_time(bubble_sort, table.copy())}")
+    # print(f"Bubble sort: {test_time(bubble_sort, table.copy())}")
     print(f"Selection sort: {test_time(selection_sort, table.copy())}")
     print(f"Merge sort: {test_time(merge_sort, table.copy())}")
     print(f"Quick sort: {test_time(quick_sort, table.copy())}")

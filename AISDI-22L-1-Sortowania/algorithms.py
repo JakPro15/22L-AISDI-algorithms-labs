@@ -1,9 +1,9 @@
 def bubble_sort(array):
-    for i in range(0, len(array) - 1):
+    for i in range(len(array) - 1):
         swap = False
-        for j in range(i, len(array) - 1):
-            if array[i] > array[i + 1]:
-                array[i], array[i + 1] = array[i + 1], array[i]
+        for j in range(len(array) - 1 - i):
+            if array[j] > array[j + 1]:
+                array[j], array[j + 1] = array[j + 1], array[j]
                 swap = True
         if not swap:
             break
@@ -11,12 +11,10 @@ def bubble_sort(array):
 
 
 def selection_sort(array):
-    array_copy = array
-    sorted_array = []
-    while array_copy:
-        sorted_array.append(min(array_copy))
-        array_copy.remove(min(array_copy))
-    return sorted_array
+    for i in range(len(array) - 1):
+        min_index = array[i:].index(min(array[i:])) + i
+        array[i], array[min_index] = array[min_index], array[i]
+    return array
 
 
 def merge_sort(array):
@@ -59,6 +57,7 @@ def quick_sort_part(array, begin, end):
         ptn = partition(array, begin, end)
         quick_sort_part(array, begin, ptn - 1)
         quick_sort_part(array, ptn + 1, end)
+        return array
 
 
 def partition(array, begin, end):
