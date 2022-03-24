@@ -60,7 +60,7 @@ def test_bubble_sort_gauss_table():
 
 
 def test_bubble_sort_sorted_table():
-    table = range(800)
+    table = list(range(800))
     table = bubble_sort(table)
     assert is_sorted(table)
 

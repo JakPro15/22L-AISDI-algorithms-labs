@@ -1,20 +1,22 @@
 def bubble_sort(array):
-    for i in range(len(array) - 1):
+    new_array = array.copy()
+    for i in range(len(new_array) - 1):
         swap = False
-        for j in range(len(array) - 1 - i):
-            if array[j] > array[j + 1]:
-                array[j], array[j + 1] = array[j + 1], array[j]
+        for j in range(len(new_array) - 1 - i):
+            if new_array[j] > new_array[j + 1]:
+                new_array[j], new_array[j + 1] = new_array[j + 1], new_array[j]
                 swap = True
         if not swap:
             break
-    return array
+    return new_array
 
 
 def selection_sort(array):
-    for i in range(len(array) - 1):
-        min_index = array[i:].index(min(array[i:])) + i
-        array[i], array[min_index] = array[min_index], array[i]
-    return array
+    new_array = array.copy()
+    for i in range(len(new_array) - 1):
+        min_index = new_array[i:].index(min(new_array[i:])) + i
+        new_array[i], new_array[min_index] = new_array[min_index], new_array[i]
+    return new_array
 
 
 def merge_sort(array):
@@ -30,38 +32,41 @@ def merge_sort(array):
 
 def merge(array_1, array_2):
     final_list = []
-    while array_1 and array_2:
-        if array_1[0] <= array_2[0]:
-            final_list.append(array_1[0])
-            array_1.remove(array_1[0])
+    index_1 = 0
+    index_2 = 0
+    while index_1 < len(array_1) and index_2 < len(array_2):
+        if array_1[index_1] <= array_2[index_2]:
+            final_list.append(array_1[index_1])
+            index_1 += 1
         else:
-            final_list.append(array_2[0])
-            array_2.remove(array_2[0])
-    while array_1:
-        final_list.append(array_1[0])
-        array_1.remove(array_1[0])
-    while array_2:
-        final_list.append(array_2[0])
-        array_2.remove(array_2[0])
+            final_list.append(array_2[index_2])
+            index_2 += 1
+    while index_1 < len(array_1):
+        final_list.append(array_1[index_1])
+        index_1 += 1
+    while index_2 < len(array_2):
+        final_list.append(array_2[index_2])
+        index_2 += 1
     return final_list
 
 
 def quick_sort(array):
-    return quick_sort_part(array, 0, len(array) - 1)
+    new_array = array.copy()
+    quick_sort_part(new_array, 0, len(new_array) - 1)
+    return new_array
 
 
 def quick_sort_part(array, begin, end):
-    if len(array) <= 1:
-        return array
     if begin < end:
         ptn = partition(array, begin, end)
         quick_sort_part(array, begin, ptn - 1)
         quick_sort_part(array, ptn + 1, end)
-        return array
 
 
 def partition(array, begin, end):
     pivot = array[(begin + end) // 2]
+    array[(begin + end) // 2], array[end] = \
+        array[end], array[(begin + end) // 2]
     i = begin - 1
     for j in range(begin, end):
         if array[j] <= pivot:
