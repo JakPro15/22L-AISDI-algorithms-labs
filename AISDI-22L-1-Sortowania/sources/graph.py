@@ -1,8 +1,28 @@
 import sys
-from algorithms import bubble_sort, selection_sort, merge_sort, quick_sort
-from reader import prepare_text
-from time_testing import test_time
+import gc
+import time
 from matplotlib import pyplot as plt
+from .reader import prepare_text
+from .algorithms import (
+    bubble_sort,
+    selection_sort,
+    merge_sort,
+    quick_sort
+)
+
+
+def test_time(sort, table):
+    gc_old = gc.isenabled()
+    gc.disable()
+
+    start_time = time.process_time()
+    sorted = sort(table)
+    end_time = time.process_time()
+
+    if gc_old:
+        gc.enable()
+
+    return end_time - start_time, sorted
 
 
 def is_sorted(array):
@@ -39,11 +59,11 @@ def generate_and_save_graph(text, entries, name, sort_function, color="b"):
     plt.xlabel("Number of words in the sorted list")
     plt.ylabel("Time of sorting in seconds")
     plt.xticks(keys, [str(element) for element in keys])
-    plt.savefig(f"graph_{name.lower()}.png")
+    plt.savefig(f"graphs/graph_{name.lower()}.png")
     plt.clf()
 
 
-if __name__ == "__main__":
+def save_all_graphs():
     text = prepare_text("pan-tadeusz-unix.txt", 10000)
     generate_and_save_graph(text, 10, "Bubble", bubble_sort, "b")
     generate_and_save_graph(text, 10, "Selection", selection_sort, "y")

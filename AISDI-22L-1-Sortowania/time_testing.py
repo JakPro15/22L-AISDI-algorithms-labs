@@ -1,12 +1,11 @@
-import time
-import gc
 import random
-from algorithms import (
+from sources.algorithms import (
     bubble_sort,
     merge_sort,
     selection_sort,
     quick_sort
 )
+from sources.graph import test_time
 
 
 def generate_table(randomizer, size=10000):
@@ -14,20 +13,6 @@ def generate_table(randomizer, size=10000):
     for _ in range(size):
         table.append(randomizer())
     return table
-
-
-def test_time(sort, table):
-    gc_old = gc.isenabled()
-    gc.disable()
-
-    start_time = time.process_time()
-    sorted = sort(table)
-    end_time = time.process_time()
-
-    if gc_old:
-        gc.enable()
-
-    return end_time - start_time, sorted
 
 
 def complete_random_test():

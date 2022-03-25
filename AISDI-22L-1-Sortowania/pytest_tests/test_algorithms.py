@@ -1,5 +1,5 @@
 import random
-from .algorithms import (
+from ..sources.algorithms import (
     bubble_sort,
     selection_sort,
     merge_sort,
