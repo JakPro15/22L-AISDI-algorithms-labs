@@ -20,11 +20,12 @@ def selection_sort(array):
 
 
 def merge_sort(array):
-    if len(array) <= 1:
-        return array
-    midpoint = len(array) // 2
-    left_array = array[:midpoint]
-    right_array = array[midpoint:]
+    new_array = array.copy()
+    if len(new_array) <= 1:
+        return new_array
+    midpoint = len(new_array) // 2
+    left_array = new_array[:midpoint]
+    right_array = new_array[midpoint:]
     left_array = merge_sort(left_array)
     right_array = merge_sort(right_array)
     return merge(left_array, right_array)
@@ -58,9 +59,9 @@ def quick_sort(array):
 
 def quick_sort_part(array, begin, end):
     if begin < end:
-        ptn = partition(array, begin, end)
-        quick_sort_part(array, begin, ptn - 1)
-        quick_sort_part(array, ptn + 1, end)
+        partition_point = partition(array, begin, end)
+        quick_sort_part(array, begin, partition_point - 1)
+        quick_sort_part(array, partition_point + 1, end)
 
 
 def partition(array, begin, end):
