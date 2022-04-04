@@ -16,7 +16,7 @@ class BinarySearchTree:
                 return
             self.left_tree = BinarySearchTree(value)
             return
-        elif self.right_tree:
+        if self.right_tree:
             self.right_tree.insert(value)
             return
         self.right_tree = BinarySearchTree(value)
@@ -37,15 +37,22 @@ class BinarySearchTree:
         if self is None:
             return self
         elif value < self.value:
-            self.left_tree = self.left_tree.delete(value)
+            if self.left_tree:
+                self.left_tree = self.left_tree.delete(value)
+            return self
         elif value > self.value:
-            self.right_tree = self.right_tree.delete(value)
-        elif self.right_tree is None:
+            if self.right_tree:
+                self.right_tree = self.right_tree.delete(value)
+            return self
+        if self.right_tree is None:
             return self.left_tree
-        elif self.left_tree is None:
+        if self.left_tree is None:
             return self.right_tree
-        follower = self.right_tree.give_min()
-        self.right_tree = self.right_tree.delete(follower)
+        follower = self.right_tree
+        while follower:
+            follower = follower.left_tree
+        self.value = follower.value
+        self.right_tree = self.right_tree.delete(follower.value)
         return self
 
     def search(self, value):
