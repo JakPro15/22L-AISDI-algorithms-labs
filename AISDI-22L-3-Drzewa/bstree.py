@@ -1,3 +1,11 @@
+class Binary_Search_Tree:
+    def __init__(self, values):
+        self.root = Binary_Search_Tree_Node()
+        if values:
+            for value in values:
+                self.root.insert(value)
+
+
 class Binary_Search_Tree_Node:
     def __init__(self, value=None):
         self.left_tree = None
