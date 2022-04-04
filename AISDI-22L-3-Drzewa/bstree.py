@@ -5,6 +5,9 @@ class Binary_Search_Tree:
             for value in values:
                 self.root.insert(value)
 
+    def delete(self, value):
+        self.root = self.root.delete(value)
+
 
 class Binary_Search_Tree_Node:
     def __init__(self, value=None):
@@ -28,18 +31,6 @@ class Binary_Search_Tree_Node:
             self.right_tree.insert(value)
             return
         self.right_tree = Binary_Search_Tree_Node(value)
-
-    def give_min(self):
-        min = self
-        while min.left_tree is not None:
-            min = min.left_tree
-        return min.value
-
-    def give_max(self):
-        max = self
-        while max.right_tree is not None:
-            max = max.right_tree
-        return max.value
 
     def delete(self, value):
         if self is None:
