@@ -1,4 +1,4 @@
-from bstree import BinarySearchTree
+from bstree import Binary_Search_Tree_Node
 
 
 class AVL_Tree:
@@ -13,7 +13,7 @@ class AVL_Tree:
 
 
 
-class AVL_Tree_Node(BinarySearchTree):
+class AVL_Tree_Node(Binary_Search_Tree_Node):
     def __init__(self, parent=None, value=None):
         super().__init__(value)
         self.parent = parent

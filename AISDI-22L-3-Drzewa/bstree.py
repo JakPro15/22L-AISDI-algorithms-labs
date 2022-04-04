@@ -1,4 +1,4 @@
-class BinarySearchTree:
+class Binary_Search_Tree_Node:
     def __init__(self, value=None):
         self.left_tree = None
         self.right_tree = None
@@ -14,12 +14,12 @@ class BinarySearchTree:
             if self.left_tree:
                 self.left_tree.insert(value)
                 return
-            self.left_tree = BinarySearchTree(value)
+            self.left_tree = Binary_Search_Tree_Node(value)
             return
         if self.right_tree:
             self.right_tree.insert(value)
             return
-        self.right_tree = BinarySearchTree(value)
+        self.right_tree = Binary_Search_Tree_Node(value)
 
     def give_min(self):
         min = self
@@ -49,7 +49,7 @@ class BinarySearchTree:
         if self.left_tree is None:
             return self.right_tree
         follower = self.right_tree
-        while follower:
+        while follower.left_tree:
             follower = follower.left_tree
         self.value = follower.value
         self.right_tree = self.right_tree.delete(follower.value)
