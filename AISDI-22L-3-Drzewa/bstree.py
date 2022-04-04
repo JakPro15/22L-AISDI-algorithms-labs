@@ -5,6 +5,9 @@ class Binary_Search_Tree:
             for value in values:
                 self.root.insert(value)
 
+    def insert(self, value):
+        self.root.insert(value)
+
     def delete(self, value):
         self.root = self.root.delete(value)
 
