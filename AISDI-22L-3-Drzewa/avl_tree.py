@@ -1,0 +1,149 @@
+from bstree import BinarySearchTree
+
+
+class AVL_Tree:
+    def __init__(self, values=None):
+        if values:
+            self.root = AVL_Tree_Node(values[0])
+            for value in values:
+                self.root.insert(value)
+    
+    def insert(self, value):
+        self.root.insert(value)
+
+
+
+class AVL_Tree_Node(BinarySearchTree):
+    def __init__(self, parent=None, value=None):
+        super().__init__(value)
+        self.parent = parent
+        self.balance_factor = 0
+
+    def insert(self, value):
+        super().insert(value)
+        if self == self.parent.right_tree:
+            self.parent.balance_factor += 1
+        else:
+            self.parent.balance_factor -= 1
+        
+        if self.parent.balance_factor == 2:
+            if self.balance_factor < 0:
+                # Right-Right case - Left rotation needed
+                self._rotate_left()
+            else:
+                # Right-Left case - Right-Left rotation needed
+                self._rotate_right_left()
+        elif self.parent.balance_factor == -2:
+            if self.balance_factor < 0:
+                # Left-Left case - Right rotation needed
+                self._rotate_right()
+            else:
+                # Left-Right case - Left-Right rotation needed
+                self._rotate_left_right()
+
+    def _rotate_left(self, set_factors=True):
+        x = self.parent
+        # Rebind the left child of self
+        if self.left_tree:
+            x.right_tree = self.left_tree
+            self.left_tree.parent = x
+        else:
+            x.right_tree = None
+
+        # Rotate self with X
+        if isinstance(x.parent, AVL_Tree_Node):
+            if x == x.parent.left_tree:
+                x.parent.left_tree = self
+            else:
+                x.parent.right_tree = self
+            self.parent = x.parent
+            x.parent = self
+            self.left_tree = x
+        else:
+            x.parent.root = self
+            self.parent = x.parent
+            x.parent = self
+            self.left_tree = x
+
+        if set_factors:
+            # Fix balance factors
+            if self.balance_factor == 0:
+                x.balance_factor = 1
+                self.balance_factor = -1
+            else:
+                x.balance_factor = 0
+                self.balance_factor = 0
+
+
+    def _rotate_right(self, set_factors=True):
+        x = self.parent
+        # Rebind the right child of self
+        if self.right_tree:
+            x.left_tree = self.right_tree
+            self.right_tree.parent = x
+        else:
+            x.left_tree = None
+
+        # Rotate self with X
+        if isinstance(x.parent, AVL_Tree_Node):
+            if x == x.parent.left_tree:
+                x.parent.left_tree = self
+            else:
+                x.parent.right_tree = self
+            self.parent = x.parent
+            x.parent = self
+            self.right_tree = x
+        else:
+            x.parent.root = self
+            self.parent = x.parent
+            x.parent = self
+            self.right_tree = x
+
+        if set_factors:
+            # Fix balance factors
+            if self.balance_factor == 0:
+                x.balance_factor = -1
+                self.balance_factor = 1
+            else:
+                x.balance_factor = 0
+                self.balance_factor = 0
+
+    def _rotate_left_right(self):
+        x = self.parent
+        y = self.right_tree
+
+        # First rotate Y left...
+        y.rotate_left(False)
+        # ...then rotate Y right
+        y.rotate_right(False)
+
+        # Fix balance factors
+        if y.balance_factor == 0:
+            x.balance_factor = 0
+            self.balance_factor = 0
+        elif y.balance_factor > 0:
+            x.balance_factor = 1
+            self.balance_factor = 0
+        else:
+            x.balance_factor = 0
+            self.balance_factor = -1
+
+    def _rotate_right_left(self):
+        x = self.parent
+        y = self.left_tree
+
+        # First rotate Y right...
+        y.rotate_right(False)
+        # ...then rotate Y left
+        y.rotate_left(False)
+
+        # Fix balance factors
+        if y.balance_factor == 0:
+            x.balance_factor = 0
+            self.balance_factor = 0
+        elif y.balance_factor > 0:
+            x.balance_factor = -1
+            self.balance_factor = 0
+        else:
+            x.balance_factor = 0
+            self.balance_factor = 1
