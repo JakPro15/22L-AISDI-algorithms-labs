@@ -2,8 +2,8 @@ from bstree import BinarySearchTree
 
 
 def test_create_1():
-    tree_1 = BinarySearchTree(5)
-    assert tree_1.value == 5
+    tree = BinarySearchTree(5)
+    assert tree.value == 5
 
 
 def test_create_none():
@@ -12,6 +12,62 @@ def test_create_none():
 
 
 def test_insert_node_left():
-    tree_1 = BinarySearchTree(2)
-    tree_1.insert(1)
-    assert tree_1.left_tree.value == 1
+    tree = BinarySearchTree(2)
+    tree.insert(1)
+    assert tree.left_tree.value == 1
+    assert tree.right_tree is None
+
+
+def test_insert_node_right():
+    tree = BinarySearchTree(2)
+    tree.insert(3)
+    assert tree.right_tree.value == 3
+    assert tree.left_tree is None
+
+
+def test_insert_node_advanced_1():
+    tree = BinarySearchTree(2)
+    tree.insert(4)
+    tree.insert(3)
+    assert tree.right_tree.left_tree.value == 3
+
+
+def test_insert_node_advanced_2():
+    tree = BinarySearchTree(2)
+    tree.insert(4)
+    tree.insert(3)
+    tree.insert(5)
+    assert tree.right_tree.left_tree.value == 3
+    assert tree.right_tree.right_tree.value == 5
+
+
+def test_give_min_1():
+    tree = BinarySearchTree(2)
+    tree.insert(4)
+    tree.insert(3)
+    assert tree.give_min() == 2
+
+
+def test_give_min_2():
+    tree = BinarySearchTree(3)
+    tree.insert(4)
+    tree.insert(3)
+    tree.insert(1)
+    tree.insert(2)
+    assert tree.give_min() == 1
+
+
+def test_give_max_1():
+    tree = BinarySearchTree(2)
+    tree.insert(4)
+    tree.insert(3)
+    assert tree.give_min() == 4
+
+
+def test_give_max_2():
+    tree = BinarySearchTree(3)
+    tree.insert(4)
+    tree.insert(3)
+    tree.insert(5)
+    tree.insert(2)
+    assert tree.give_min() == 5
