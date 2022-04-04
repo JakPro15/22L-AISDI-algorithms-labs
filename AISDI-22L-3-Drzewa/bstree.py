@@ -8,15 +8,15 @@ class BinarySearchTree:
         if not self.value:
             self.value = value
             return
-        if self.value == value:
+        elif self.value == value:
             return
-        if value < self.value:
+        elif value < self.value:
             if self.left_tree:
                 self.left_tree.insert(value)
                 return
             self.left_tree = BinarySearchTree(value)
             return
-        if self.right_tree:
+        elif self.right_tree:
             self.right_tree.insert(value)
             return
         self.right_tree = BinarySearchTree(value)
@@ -36,13 +36,13 @@ class BinarySearchTree:
     def delete(self, value):
         if self is None:
             return self
-        if value < self.value:
+        elif value < self.value:
             self.left_tree = self.left_tree.delete(value)
-        if value > self.value:
+        elif value > self.value:
             self.right_tree = self.right_tree.delete(value)
-        if self.right_tree is None:
+        elif self.right_tree is None:
             return self.left_tree
-        if self.left_tree is None:
+        elif self.left_tree is None:
             return self.right_tree
         follower = self.right_tree.give_min()
         self.right_tree = self.right_tree.delete(follower)

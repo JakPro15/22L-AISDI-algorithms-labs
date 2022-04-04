@@ -61,7 +61,7 @@ def test_give_max_1():
     tree = BinarySearchTree(2)
     tree.insert(4)
     tree.insert(3)
-    assert tree.give_min() == 4
+    assert tree.give_max() == 4
 
 
 def test_give_max_2():
@@ -70,4 +70,21 @@ def test_give_max_2():
     tree.insert(3)
     tree.insert(5)
     tree.insert(2)
-    assert tree.give_min() == 5
+    assert tree.give_max() == 5
+
+
+def test_delete_node_1():
+    tree = BinarySearchTree(2)
+    tree.insert(4)
+    tree.insert(3)
+    tree.delete(3)
+    assert tree.right_tree.left_tree is None
+
+
+def test_delete_node_2():
+    tree = BinarySearchTree(2)
+    tree.insert(4)
+    tree.insert(3)
+    tree.insert(5)
+    assert tree.right_tree.left_tree.value == 3
+    assert tree.right_tree.right_tree.value == 5
