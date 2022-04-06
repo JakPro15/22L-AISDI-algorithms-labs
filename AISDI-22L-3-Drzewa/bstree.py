@@ -1,3 +1,6 @@
+from math import ceil
+
+
 class Binary_Search_Tree:
     def __init__(self, values):
         self.root = Binary_Search_Tree_Node()
@@ -26,9 +29,27 @@ class Binary_Search_Tree:
         return searched_values
 
     def print_tree(self):
-        strings_array = ["     " for x in range(2 ** (self.root.height()))]
-        strings_array[0] = "yeet"
-        strings_array = self.root.prepare_string(strings_array, 1)
+        str_array = ["     " for x in range(2 ** (self.root.height()))]
+        str_array[0] = "yeet"
+        str_array[1] = f"{self.root.value: ^5}"
+        str_array = self.root.prepare_string(str_array, 1)
+        tree_strings = []
+        h = self.root.height()
+        while h > 0:
+            tree_string = ""
+            k = self.root.height() - h + 1
+            tree_string += " " * ceil(6 * (2 ** (k - 2)) - 3)
+            for i in range(2 ** (h - 1), 2 ** h - 1):
+                tree_string += str_array[i]
+                tree_string += " " * (((2 ** (k - 1) - 1) * 5 + 2 ** (k - 1)))
+            tree_string += str_array[2 ** h - 1]
+            tree_string += "\n"
+            tree_strings.append(tree_string)
+            h -= 1
+        length = len(tree_strings)
+        while length > 0:
+            print(tree_strings[length - 1])
+            length -= 1
 
 
 class Binary_Search_Tree_Node:
@@ -103,11 +124,11 @@ class Binary_Search_Tree_Node:
             tree_height = 0
         return tree_height + 1
 
-    def prepare_string(self, strings_array, parent_index):
-        strings_array[2 * parent_index] = f"{self.left_tree.value: ^5}"
-        strings_array[2 * parent_index + 1] = f"{self.right_tree.value: ^5}"
+    def prepare_string(self, str_array, parent_index):
         if self.left_tree:
-            self.left_tree.prepare_string(strings_array, 2 * parent_index)
+            str_array[2 * parent_index] = f"{self.left_tree.value: ^5}"
+            self.left_tree.prepare_string(str_array, 2 * parent_index)
         if self.right_tree:
-            self.right_tree.prepare_string(strings_array, 2 * parent_index + 1)
-        return strings_array
+            str_array[2 * parent_index + 1] = f"{self.right_tree.value: ^5}"
+            self.right_tree.prepare_string(str_array, 2 * parent_index + 1)
+        return str_array
