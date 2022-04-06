@@ -11,6 +11,9 @@ class Binary_Search_Tree:
     def delete(self, value):
         self.root = self.root.delete(value)
 
+    def search(self, value):
+        return self.root.search(value)
+
 
 class Binary_Search_Tree_Node:
     def __init__(self, value=None):
@@ -63,9 +66,9 @@ class Binary_Search_Tree_Node:
         if value < self.value:
             if self.left_tree is None:
                 return None
-            self.left_tree.search(value)
+            return self.left_tree.search(value)
 
         if value > self.value:
             if self.right_tree is None:
                 return None
-            self.right_tree.search(value)
+            return self.right_tree.search(value)
