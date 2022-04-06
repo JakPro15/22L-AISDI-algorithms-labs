@@ -13,7 +13,8 @@ class Binary_Search_Tree:
     def delete(self, values):
         if values:
             for value in values:
-                self.root = self.root.delete(value)
+                if self.root:
+                    self.root = self.root.delete(value)
 
     def search(self, values):
         searched_values = []
