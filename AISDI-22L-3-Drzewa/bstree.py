@@ -4,6 +4,7 @@ class Binary_Search_Tree:
         if values:
             for value in values:
                 self.root.insert(value)
+        self.height = self.root.height()
 
     def insert(self, values):
         if values:
@@ -23,6 +24,11 @@ class Binary_Search_Tree:
                 if self.root.search(value):
                     searched_values.append(self.root.search(value))
         return searched_values
+
+    def print_tree(self):
+        strings_array = ["     " for x in range(2 ** (self.root.height()))]
+        strings_array[0] = "yeet"
+        strings_array = self.root.prepare_string(strings_array, 1)
 
 
 class Binary_Search_Tree_Node:
@@ -82,3 +88,26 @@ class Binary_Search_Tree_Node:
             if self.right_tree is None:
                 return None
             return self.right_tree.search(value)
+
+    def height(self):
+        if self.left_tree and self.right_tree:
+            tree_height = max(
+                self.left_tree.height(),
+                self.right_tree.height()
+                )
+        elif self.left_tree:
+            tree_height = self.left_tree.height()
+        elif self.right_tree:
+            tree_height = self.right_tree.height()
+        else:
+            tree_height = 0
+        return tree_height + 1
+
+    def prepare_string(self, strings_array, parent_index):
+        strings_array[2 * parent_index] = f"{self.left_tree.value: ^5}"
+        strings_array[2 * parent_index + 1] = f"{self.right_tree.value: ^5}"
+        if self.left_tree:
+            self.left_tree.prepare_string(strings_array, 2 * parent_index)
+        if self.right_tree:
+            self.right_tree.prepare_string(strings_array, 2 * parent_index + 1)
+        return strings_array

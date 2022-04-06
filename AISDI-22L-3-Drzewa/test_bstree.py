@@ -139,3 +139,18 @@ def test_with_function_3():
     array = [randint(1, 50000) for x in range(0, 100000)]
     tree = Binary_Search_Tree(array)
     assert checker(tree.root, 0, inf) is True
+
+
+def test_height_1():
+    tree = Binary_Search_Tree([2, 1, 4, 3, 5])
+    assert tree.root.height() == 3
+
+
+def test_height_2():
+    tree = Binary_Search_Tree([2, 1, 4, 3, 5, 6])
+    assert tree.root.height() == 4
+
+
+def test_height_3():
+    tree = Binary_Search_Tree([3, 2, 5, 4, 6, 7, 1])
+    assert tree.root.height() == 4
