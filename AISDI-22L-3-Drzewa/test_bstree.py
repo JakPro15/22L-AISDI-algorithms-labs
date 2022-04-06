@@ -1,3 +1,5 @@
+from math import inf
+from random import randint
 from bstree import Binary_Search_Tree_Node, Binary_Search_Tree
 
 
@@ -101,3 +103,37 @@ def test_search_tree_3():
     assert tree.search(3) is None
     assert tree.search(5) is None
     assert tree.search(7) is None
+
+
+def checker(tree_root, min, max):
+    if min < tree_root.value < max:
+        if not (tree_root.left_tree or tree_root.right_tree):
+            return True
+        if tree_root.left_tree:
+            left = checker(tree_root.left_tree, min, tree_root.value)
+        else:
+            left = True
+        if tree_root.right_tree:
+            right = checker(tree_root.right_tree, tree_root.value, max)
+        else:
+            right = True
+        return left and right
+    else:
+        return False
+
+
+def test_with_function_1():
+    tree = Binary_Search_Tree([2, 1, 4, 3, 5])
+    assert checker(tree.root, 0, inf) is True
+
+
+def test_with_function_2():
+    array = [randint(1, 30000) for x in range(0, 10000)]
+    tree = Binary_Search_Tree(array)
+    assert checker(tree.root, 0, inf) is True
+
+
+def test_with_function_3():
+    array = [randint(1, 50000) for x in range(0, 100000)]
+    tree = Binary_Search_Tree(array)
+    assert checker(tree.root, 0, inf) is True
