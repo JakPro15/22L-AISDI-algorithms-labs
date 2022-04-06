@@ -31,3 +31,11 @@ def checker(tree_root, min, max):
         return left and right
     else:
         return False
+
+
+def fill_table(process, number_of_entries, array):
+    times_array = []
+    for size in range(1, number_of_entries + 1):
+        total_time = test_time(process, array[:size * 1000])
+        times_array.append(total_time)
+    return times_array
