@@ -5,14 +5,23 @@ class Binary_Search_Tree:
             for value in values:
                 self.root.insert(value)
 
-    def insert(self, value):
-        self.root.insert(value)
+    def insert(self, values):
+        if values:
+            for value in values:
+                self.root.insert(value)
 
-    def delete(self, value):
-        self.root = self.root.delete(value)
+    def delete(self, values):
+        if values:
+            for value in values:
+                self.root = self.root.delete(value)
 
-    def search(self, value):
-        return self.root.search(value)
+    def search(self, values):
+        searched_values = []
+        if values:
+            for value in values:
+                if self.root.search(value):
+                    searched_values.append(self.root.search(value))
+        return searched_values
 
 
 class Binary_Search_Tree_Node:
