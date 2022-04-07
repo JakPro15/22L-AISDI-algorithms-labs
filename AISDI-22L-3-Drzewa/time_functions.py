@@ -1,5 +1,8 @@
 import gc
 import time
+from matplotlib import pyplot as plt
+from bstree import Binary_Search_Tree
+from copy import copy
 
 
 def test_time(process, table):
@@ -39,3 +42,28 @@ def fill_table(process, number_of_entries, array):
         total_time = test_time(process, array[:size * 1000])
         times_array.append(total_time)
     return times_array
+
+
+def generate_and_save_graph(array, entries, name, process, color="b"):
+    times = fill_table(process, entries, array)
+    keys = [i * 1000 for i in range(1, entries + 1)]
+    plt.plot(
+        keys, times, 'o-', label=f"{name}", markersize=3, color=color
+    )
+    plt.legend()
+    plt.title(f"{name} - time of process depending on the length of the"
+              " list")
+    plt.xlabel("Number of integers in the array")
+    plt.ylabel("Time of sorting in seconds")
+    plt.xticks(keys, [str(element) for element in keys])
+    plt.savefig(f"graph_{name.lower()}.png")
+    plt.clf()
+
+
+def save_all_graphs(array, tree):
+    tree = copy(tree)
+    generate_and_save_graph(
+        array, 10, "Create tree", Binary_Search_Tree, "b"
+        )
+    generate_and_save_graph(array, 10, "Search elements", tree.search, "y")
+    generate_and_save_graph(array, 10, "Delete elements", tree.delete, "g")
