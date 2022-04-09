@@ -62,8 +62,6 @@ def generate_and_save_graph(array, entries, name, process, color="b"):
 
 def save_all_graphs(array, tree):
     tree = copy(tree)
-    generate_and_save_graph(
-        array, 10, "Create_tree", Binary_Search_Tree, "b"
-        )
+    generate_and_save_graph(array, 10, "Create_tree", Binary_Search_Tree, "b")
     generate_and_save_graph(array, 10, "Search_elements", tree.search, "y")
     generate_and_save_graph(array, 10, "Delete_elements", tree.delete, "g")
