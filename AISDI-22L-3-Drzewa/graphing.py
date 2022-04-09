@@ -1,8 +1,6 @@
 import gc
 import time
 from matplotlib import pyplot as plt
-from bstree import Binary_Search_Tree
-from copy import copy
 
 
 def test_time(process, table):
@@ -36,17 +34,8 @@ def checker(tree_root, min, max):
         return False
 
 
-def fill_table(process, number_of_entries, array):
-    times_array = []
-    for size in range(1, number_of_entries + 1):
-        total_time = test_time(process, array[:size * 1000])
-        times_array.append(total_time)
-    return times_array
-
-
-def generate_and_save_graph(array, entries, name, process, description, color):
-    times = fill_table(process, entries, array)
-    keys = [i * 1000 for i in range(1, entries + 1)]
+def generate_and_save_graph(name, description, color, times):
+    keys = [i * 1000 for i in range(1, 11)]
     title = ""
     for letter in name:
         if letter != "_":
@@ -63,19 +52,3 @@ def generate_and_save_graph(array, entries, name, process, description, color):
     plt.xticks(keys, [str(element) for element in keys])
     plt.savefig(f"graph_{name.lower()}.png")
     plt.clf()
-
-
-def save_all_graphs(array, tree):
-    tree = copy(tree)
-    generate_and_save_graph(
-        array, 10, "Create_tree_-_BST", Binary_Search_Tree,
-        "time of creation depending on the list length", "b"
-        )
-    generate_and_save_graph(
-        array, 10, "Search_elements_-_BST", tree.search,
-        "time of search depending on number of elements", "y"
-        )
-    generate_and_save_graph(
-        array, 10, "Delete_elements_-_BST", tree.delete,
-        "time of deletion depending on number of elements", "g"
-        )
