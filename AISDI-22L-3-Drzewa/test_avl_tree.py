@@ -173,6 +173,13 @@ def test_sorted_list():
     tree = AVL_Tree(values)
 
     go_down_the_tree(tree.root, None, None)
+    for value in values:
+        assert tree.search([value])[0].value == value
+    for value in values:
+        tree.delete([value])
+        assert len(tree.search([value])) == 0
+        if tree.root:
+            go_down_the_tree(tree.root, None, None)
 
 
 def test_random_list():
@@ -180,6 +187,13 @@ def test_random_list():
     tree = AVL_Tree(values)
 
     go_down_the_tree(tree.root, None, None)
+    for value in values:
+        assert tree.search([value])[0].value == value
+    for value in values:
+        tree.delete([value])
+        assert len(tree.search([value])) == 0
+        if tree.root:
+            go_down_the_tree(tree.root, None, None)
 
 
 def test_gauss_random_list():
@@ -187,3 +201,10 @@ def test_gauss_random_list():
     tree = AVL_Tree(values)
 
     go_down_the_tree(tree.root, None, None)
+    for value in values:
+        assert tree.search([value])[0].value == value
+    for value in values:
+        tree.delete([value])
+        assert len(tree.search([value])) == 0
+        if tree.root:
+            go_down_the_tree(tree.root, None, None)
