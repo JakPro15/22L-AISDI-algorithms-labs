@@ -68,14 +68,14 @@ def generate_and_save_graph(array, entries, name, process, description, color):
 def save_all_graphs(array, tree):
     tree = copy(tree)
     generate_and_save_graph(
-        array, 10, "Create_tree", Binary_Search_Tree,
+        array, 10, "Create_tree_-_BST", Binary_Search_Tree,
         "time of creation depending on the list length", "b"
         )
     generate_and_save_graph(
-        array, 10, "Search_elements", tree.search,
+        array, 10, "Search_elements_-_BST", tree.search,
         "time of search depending on number of elements", "y"
         )
     generate_and_save_graph(
-        array, 10, "Delete_elements", tree.delete,
+        array, 10, "Delete_elements_-_BST", tree.delete,
         "time of deletion depending on number of elements", "g"
         )
