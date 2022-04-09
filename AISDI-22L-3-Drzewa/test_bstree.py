@@ -41,6 +41,12 @@ def test_insert_node_advanced_2():
     assert tree.root.right_tree.right_tree.value == 5
 
 
+def test_delete_node_0():
+    tree = Binary_Search_Tree([])
+    tree.delete([3])
+    assert tree.root.value is None
+
+
 def test_delete_node_1():
     tree = Binary_Search_Tree([2, 4, 3])
     tree.delete([3])
@@ -100,6 +106,12 @@ def test_delete_nodes_3():
     assert tree.root.right_tree.value == 5
 
 
+def test_search_tree_0():
+    tree = Binary_Search_Tree([])
+    searched = tree.search([1])
+    assert len(searched) == 0
+
+
 def test_search_tree_1():
     tree = Binary_Search_Tree([2, 1, 4, 3, 5])
     searched = tree.search([1, 3, 5, 7])
@@ -154,3 +166,18 @@ def test_height_2():
 def test_height_3():
     tree = Binary_Search_Tree([3, 2, 5, 4, 6, 7, 1])
     assert tree.root.height() == 4
+
+
+def test_with_function_search():
+    array = [randint(1, 30000) for x in range(0, 10000)]
+    tree = Binary_Search_Tree(array)
+    for value, element in zip(array, tree.search(array)):
+        assert element.value == value
+
+
+def test_with_function_delete():
+    array = [randint(1, 30000) for x in range(0, 10000)]
+    tree = Binary_Search_Tree(array)
+    for value in array:
+        tree.delete([value])
+        assert tree.search([value]) == []

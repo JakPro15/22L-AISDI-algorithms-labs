@@ -1,6 +1,3 @@
-from bstree import Binary_Search_Tree_Node
-
-
 class AVL_Tree:
     def __init__(self, values=None):
         self.root = AVL_Tree_Node(self, None, None)
@@ -10,6 +7,23 @@ class AVL_Tree:
 
     def insert(self, value):
         self.root.insert(value)
+
+    def delete(self, values):
+        if values:
+            for value in values:
+                if self.root:
+                    element = self.root.search(value)
+                    if element:
+                        element.delete()
+
+    def search(self, values):
+        searched_values = []
+        if values:
+            for value in values:
+                if self.root:
+                    if self.root.search(value):
+                        searched_values.append(self.root.search(value))
+        return searched_values
 
     @staticmethod
     def node_to_string(result_lines, node, depth):
@@ -40,41 +54,43 @@ class AVL_Tree_Node:
                 self.parent.right_child = self
             else:
                 self.parent.left_child = self
-
-        # AVL Rebalancing
         # Fix balance factors if value was just inserted here
         if self.value is not None:
-            a = self
-            while isinstance(a.parent, AVL_Tree_Node):
-                # Balance factors
-                if a == a.parent.right_child:
-                    a.parent.balance_factor += 1
+            self._rebalance()
+
+    def _rebalance(self):
+        # AVL Rebalancing
+        a = self
+        while isinstance(a.parent, AVL_Tree_Node):
+            # Balance factors
+            if a == a.parent.right_child:
+                a.parent.balance_factor += 1
+            else:
+                a.parent.balance_factor -= 1
+
+            # Rotations
+            if a.parent.balance_factor == 2:
+                if a.balance_factor > 0:
+                    # Right-Right case - Left rotation needed
+                    a._rotate_left()
                 else:
-                    a.parent.balance_factor -= 1
+                    # Right-Left case - Right-Left rotation needed
+                    a._rotate_right_left()
+                break
+            elif a.parent.balance_factor == -2:
+                if a.balance_factor < 0:
+                    # Left-Left case - Right rotation needed
+                    a._rotate_right()
+                else:
+                    # Left-Right case - Left-Right rotation needed
+                    a._rotate_left_right()
+                break
+            elif a.parent.balance_factor == 0:
+                break
 
-                # Rotations
-                if a.parent.balance_factor == 2:
-                    if a.balance_factor > 0:
-                        # Right-Right case - Left rotation needed
-                        a._rotate_left()
-                    else:
-                        # Right-Left case - Right-Left rotation needed
-                        a._rotate_right_left()
-                    break
-                elif a.parent.balance_factor == -2:
-                    if a.balance_factor < 0:
-                        # Left-Left case - Right rotation needed
-                        a._rotate_right()
-                    else:
-                        # Left-Right case - Left-Right rotation needed
-                        a._rotate_left_right()
-                    break
-                elif a.parent.balance_factor == 0:
-                    break
-
-                # Move to parent
-                if isinstance(a.parent, AVL_Tree_Node):
-                    a = a.parent
+            # Move to parent
+            if isinstance(a.parent, AVL_Tree_Node):
+                a = a.parent
 
     def insert(self, value):
         # Insert like in BST
@@ -92,7 +108,6 @@ class AVL_Tree_Node:
             self.right_child.insert(value)
         else:
             AVL_Tree_Node(self, True, value)
-
 
     def _rotate_left(self, set_factors=True):
         x = self.parent
@@ -126,7 +141,6 @@ class AVL_Tree_Node:
             else:
                 x.balance_factor = 0
                 self.balance_factor = 0
-
 
     def _rotate_right(self, set_factors=True):
         x = self.parent
@@ -202,3 +216,49 @@ class AVL_Tree_Node:
             x.balance_factor = 0
             self.balance_factor = 1
         y.balance_factor = 0
+
+    def search(self, value):
+        if value == self.value:
+            return self
+        if value < self.value:
+            if self.left_tree is None:
+                return None
+            return self.left_tree.search(value)
+
+        if value > self.value:
+            if self.right_tree is None:
+                return None
+            return self.right_tree.search(value)
+
+    def delete(self, value):
+        if value < self.value:
+            if self.left_child:
+                self.left_child.delete(value)
+        elif value > self.value:
+            if self.right_child:
+                self.right_child.delete(value)
+        else:
+            if self.right_child is None:
+                if self.parent.left_child == self:
+                    self.parent.left_child = self.left_child
+                    self.left_child.parent = self.parent
+                else:
+                    self.parent.right_child = self.left_child
+                    self.left_child.parent = self.parent
+            if self.left_child is None:
+                if self.parent.left_child == self:
+                    self.parent.left_child = self.right_child
+                    self.right_child.parent = self.parent
+                else:
+                    self.parent.right_child = self.right_child
+                    self.right_child.parent = self.parent
+            follower = self.right_child
+            while follower.left_child:
+                follower = follower.left_child
+            self.value = follower.value
+            if follower.parent.left_child == follower:
+                follower.parent.left_child = follower.right_child
+                follower.right_child.parent = follower.parent
+            else:
+                follower.parent.right_child = follower.right_child
+                follower.right_child.parent = follower.parent

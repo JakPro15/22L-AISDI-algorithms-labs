@@ -1,5 +1,4 @@
 from avl_tree import AVL_Tree
-from random import randint
 
 
 def get_subtree_height(node):

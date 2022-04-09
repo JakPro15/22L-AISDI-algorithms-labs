@@ -127,7 +127,7 @@ def test_basic_avl_tree_left_rotation():
 
 
 def test_basic_avl_tree_left_right_rotation():
-    # Here a right-left rotation is needed
+    # Here a left-right rotation is needed
     tree = AVL_Tree([1, -1, 0])
     go_down_the_tree(tree.root, None, None)
     assert tree.root.parent is tree

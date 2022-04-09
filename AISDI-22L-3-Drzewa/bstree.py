@@ -17,8 +17,9 @@ class Binary_Search_Tree:
     def delete(self, values):
         if values:
             for value in values:
-                if self.root:
-                    self.root = self.root.delete(value)
+                self.root = self.root.delete(value)
+                if self.root is None:
+                    self.root = Binary_Search_Tree_Node()
 
     def search(self, values):
         searched_values = []
@@ -77,9 +78,9 @@ class Binary_Search_Tree_Node:
         self.right_tree = Binary_Search_Tree_Node(value)
 
     def delete(self, value):
-        if self is None:
+        if self.value is None:
             return self
-        elif value < self.value:
+        if value < self.value:
             if self.left_tree:
                 self.left_tree = self.left_tree.delete(value)
             return self
@@ -99,6 +100,8 @@ class Binary_Search_Tree_Node:
         return self
 
     def search(self, value):
+        if self.value is None:
+            return None
         if value == self.value:
             return self
         if value < self.value:
