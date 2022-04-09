@@ -44,17 +44,22 @@ def fill_table(process, number_of_entries, array):
     return times_array
 
 
-def generate_and_save_graph(array, entries, name, process, color="b"):
+def generate_and_save_graph(array, entries, name, process, description, color):
     times = fill_table(process, entries, array)
     keys = [i * 1000 for i in range(1, entries + 1)]
+    title = ""
+    for letter in name:
+        if letter != "_":
+            title += letter
+        else:
+            title += " "
     plt.plot(
-        keys, times, 'o-', label=f"{name}", markersize=3, color=color
+        keys, times, 'o-', label=f"{title}", markersize=3, color=color
     )
     plt.legend()
-    plt.title(f"{name} - time of process depending on the length of the"
-              " list")
-    plt.xlabel("Number of integers in the array")
-    plt.ylabel("Time of sorting in seconds")
+    plt.title(f"{title} - {description}")
+    plt.xlabel("Number of elements")
+    plt.ylabel("Time of process in seconds")
     plt.xticks(keys, [str(element) for element in keys])
     plt.savefig(f"graph_{name.lower()}.png")
     plt.clf()
@@ -62,6 +67,15 @@ def generate_and_save_graph(array, entries, name, process, color="b"):
 
 def save_all_graphs(array, tree):
     tree = copy(tree)
-    generate_and_save_graph(array, 10, "Create_tree", Binary_Search_Tree, "b")
-    generate_and_save_graph(array, 10, "Search_elements", tree.search, "y")
-    generate_and_save_graph(array, 10, "Delete_elements", tree.delete, "g")
+    generate_and_save_graph(
+        array, 10, "Create_tree", Binary_Search_Tree,
+        "time of creation depending on the list length", "b"
+        )
+    generate_and_save_graph(
+        array, 10, "Search_elements", tree.search,
+        "time of search depending on number of elements", "y"
+        )
+    generate_and_save_graph(
+        array, 10, "Delete_elements", tree.delete,
+        "time of deletion depending on number of elements", "g"
+        )
