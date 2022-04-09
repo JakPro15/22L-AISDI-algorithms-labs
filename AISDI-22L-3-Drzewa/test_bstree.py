@@ -1,7 +1,7 @@
 from math import inf
 from random import randint
 from bstree import Binary_Search_Tree_Node, Binary_Search_Tree
-from time_functions import checker
+from graphing import checker
 
 
 def test_create_node_1():

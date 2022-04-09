@@ -24,8 +24,9 @@ class Binary_Search_Tree:
         searched_values = []
         if values:
             for value in values:
-                if self.root.search(value):
-                    searched_values.append(self.root.search(value))
+                element = self.root.search(value)
+                if element:
+                    searched_values.append(element)
         return searched_values
 
     def print_tree(self):

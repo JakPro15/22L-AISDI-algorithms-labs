@@ -1,4 +1,4 @@
-from time_functions import test_time
+from graphing import test_time
 from bstree import Binary_Search_Tree
 from random import randint
 
