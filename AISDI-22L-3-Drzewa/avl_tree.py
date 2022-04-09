@@ -1,3 +1,6 @@
+from math import ceil, log10
+
+
 class AVL_Tree:
     def __init__(self, values=None):
         self.root = AVL_Tree_Node(self, None, None)
@@ -34,21 +37,35 @@ class AVL_Tree:
                     searched_values.append(element)
         return searched_values
 
-    @staticmethod
-    def node_to_string(result_lines, node, depth):
-        if len(result_lines) <= depth:
-            result_lines.append("")
-        if node.value:
-            result_lines[depth] += f"{node.value} "
-        if node.left_child:
-            AVL_Tree.node_to_string(result_lines, node.left_child, depth + 1)
-        if node.right_child:
-            AVL_Tree.node_to_string(result_lines, node.right_child, depth + 1)
-
-    def to_string(self):
-        result_lines = []
-        AVL_Tree.node_to_string(result_lines, self.root, 0)
-        return "\n".join(result_lines)
+    def print_tree(self):
+        if self.root.value is None:
+            return
+        digits = ceil(log10(self.max()))
+        if digits % 2 == 0:
+            digits += 1
+        str_array = [" " * digits for x in range(2 ** (self.root.height()))]
+        str_array[0] = "yeet"
+        str_array[1] = f"{self.root.value: ^{digits}}"
+        self.root.prepare_string(str_array, 1, digits)
+        tree_strings = []
+        h = self.root.height()
+        while h > 0:
+            tree_string = ""
+            k = self.root.height() - h + 1
+            tree_string += \
+                " " * ceil((digits + 1) * (2 ** (k - 2)) - (digits + 1) / 2)
+            for i in range(2 ** (h - 1), 2 ** h - 1):
+                tree_string += str_array[i]
+                tree_string += \
+                    " " * (((2 ** (k - 1) - 1) * digits + 2 ** (k - 1)))
+            tree_string += str_array[2 ** h - 1]
+            tree_string += "\n"
+            tree_strings.append(tree_string)
+            h -= 1
+        length = len(tree_strings)
+        while length > 0:
+            print(tree_strings[length - 1])
+            length -= 1
 
 
 class AVL_Tree_Node:
@@ -68,18 +85,26 @@ class AVL_Tree_Node:
             self._insert_rebalance()
 
     def height(self):
-        if self.left_tree and self.right_tree:
-            tree_height = max(
-                self.left_tree.height(),
-                self.right_tree.height()
+        if self.left_child and self.right_child:
+            child_height = max(
+                self.left_child.height(),
+                self.right_child.height()
                 )
-        elif self.left_tree:
-            tree_height = self.left_tree.height()
-        elif self.right_tree:
-            tree_height = self.right_tree.height()
+        elif self.left_child:
+            child_height = self.left_child.height()
+        elif self.right_child:
+            child_height = self.right_child.height()
         else:
-            tree_height = 0
-        return tree_height + 1
+            child_height = 0
+        return child_height + 1
+
+    def max(self):
+        if self.value is None:
+            return None
+        elif self.right_child:
+            return self.right_child.max()
+        else:
+            return self.value
 
     def do_rotations(self):
         if self.balance_factor == 2:
@@ -335,3 +360,14 @@ class AVL_Tree_Node:
             if child:
                 child.parent = self.parent
             self.parent._delete_rebalance(from_right=True)
+
+    def prepare_string(self, str_array, parent_index, digits):
+        if self.left_child:
+            str_array[2 * parent_index] = f"{self.left_child.value: ^{digits}}"
+            self.left_child.prepare_string(str_array, 2 * parent_index, digits)
+        if self.right_child:
+            str_array[2 * parent_index + 1] = \
+                f"{self.right_child.value: ^{digits}}"
+            self.right_child.prepare_string(
+                str_array, 2 * parent_index + 1, digits
+            )

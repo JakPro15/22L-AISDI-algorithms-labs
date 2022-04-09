@@ -1,4 +1,4 @@
-from math import ceil
+from math import ceil, log10
 
 
 class Binary_Search_Tree:
@@ -11,6 +11,9 @@ class Binary_Search_Tree:
     @property
     def height(self):
         return self.root.height()
+
+    def max(self):
+        return self.root.max()
 
     def insert(self, values):
         if values:
@@ -34,19 +37,26 @@ class Binary_Search_Tree:
         return searched_values
 
     def print_tree(self):
-        str_array = ["     " for x in range(2 ** (self.root.height()))]
+        if self.root.value is None:
+            return
+        digits = ceil(log10(self.max()))
+        if digits % 2 == 0:
+            digits += 1
+        str_array = [" " * digits for x in range(2 ** (self.root.height()))]
         str_array[0] = "yeet"
-        str_array[1] = f"{self.root.value: ^5}"
-        str_array = self.root.prepare_string(str_array, 1)
+        str_array[1] = f"{self.root.value: ^{digits}}"
+        str_array = self.root.prepare_string(str_array, 1, digits)
         tree_strings = []
         h = self.root.height()
         while h > 0:
             tree_string = ""
             k = self.root.height() - h + 1
-            tree_string += " " * ceil(6 * (2 ** (k - 2)) - 3)
+            tree_string += \
+                " " * ceil((digits + 1) * (2 ** (k - 2)) - (digits + 1) / 2)
             for i in range(2 ** (h - 1), 2 ** h - 1):
                 tree_string += str_array[i]
-                tree_string += " " * (((2 ** (k - 1) - 1) * 5 + 2 ** (k - 1)))
+                tree_string += \
+                    " " * (((2 ** (k - 1) - 1) * digits + 2 ** (k - 1)))
             tree_string += str_array[2 ** h - 1]
             tree_string += "\n"
             tree_strings.append(tree_string)
@@ -62,6 +72,14 @@ class Binary_Search_Tree_Node:
         self.left_tree = None
         self.right_tree = None
         self.value = value
+
+    def max(self):
+        if self.value is None:
+            return None
+        elif self.right_tree:
+            return self.right_tree.max()
+        else:
+            return self.value
 
     def insert(self, value):
         if not self.value:
@@ -131,11 +149,14 @@ class Binary_Search_Tree_Node:
             tree_height = 0
         return tree_height + 1
 
-    def prepare_string(self, str_array, parent_index):
+    def prepare_string(self, str_array, parent_index, digits):
         if self.left_tree:
-            str_array[2 * parent_index] = f"{self.left_tree.value: ^5}"
-            self.left_tree.prepare_string(str_array, 2 * parent_index)
+            str_array[2 * parent_index] = f"{self.left_tree.value: ^{digits}}"
+            self.left_tree.prepare_string(str_array, 2 * parent_index, digits)
         if self.right_tree:
-            str_array[2 * parent_index + 1] = f"{self.right_tree.value: ^5}"
-            self.right_tree.prepare_string(str_array, 2 * parent_index + 1)
+            str_array[2 * parent_index + 1] = \
+                f"{self.right_tree.value: ^{digits}}"
+            self.right_tree.prepare_string(
+                str_array, 2 * parent_index + 1, digits
+            )
         return str_array
