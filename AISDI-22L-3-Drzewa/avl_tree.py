@@ -15,14 +15,15 @@ class AVL_Tree:
                     element = self.root.search(value)
                     if element:
                         element.delete()
+                        if self.root is None:
+                            self.root = AVL_Tree_Node(self, None, None)
 
     def search(self, values):
         searched_values = []
         if values:
             for value in values:
-                if self.root:
-                    if self.root.search(value):
-                        searched_values.append(self.root.search(value))
+                if self.root.search(value):
+                    searched_values.append(self.root.search(value))
         return searched_values
 
     @staticmethod
@@ -56,10 +57,31 @@ class AVL_Tree_Node:
                 self.parent.left_child = self
         # Fix balance factors if value was just inserted here
         if self.value is not None:
-            self._rebalance()
+            self._insert_rebalance()
 
-    def _rebalance(self):
-        # AVL Rebalancing
+    def do_rotations(self):
+        if self.balance_factor == 2:
+            if self.right_child.balance_factor >= 0:
+                # Right-Right case - Left rotation needed
+                no_further_changes = (self.right_child.balance_factor == 0)
+                self.right_child._rotate_left()
+            else:
+                # Right-Left case - Right-Left rotation needed
+                no_further_changes = False
+                self.right_child._rotate_right_left()
+        elif self.balance_factor == -2:
+            if self.left_child.balance_factor <= 0:
+                # Left-Left case - Right rotation needed
+                no_further_changes = (self.left_child.balance_factor == 0)
+                self.left_child._rotate_right()
+            else:
+                # Left-Right case - Left-Right rotation needed
+                no_further_changes = False
+                self.left_child._rotate_left_right()
+        return no_further_changes
+
+    def _insert_rebalance(self):
+        # AVL Rebalancing - Insert case
         a = self
         while isinstance(a.parent, AVL_Tree_Node):
             # Balance factors
@@ -69,21 +91,8 @@ class AVL_Tree_Node:
                 a.parent.balance_factor -= 1
 
             # Rotations
-            if a.parent.balance_factor == 2:
-                if a.balance_factor > 0:
-                    # Right-Right case - Left rotation needed
-                    a._rotate_left()
-                else:
-                    # Right-Left case - Right-Left rotation needed
-                    a._rotate_right_left()
-                break
-            elif a.parent.balance_factor == -2:
-                if a.balance_factor < 0:
-                    # Left-Left case - Right rotation needed
-                    a._rotate_right()
-                else:
-                    # Left-Right case - Left-Right rotation needed
-                    a._rotate_left_right()
+            if a.parent.balance_factor in {-2, 2}:
+                a.parent.do_rotations()
                 break
             elif a.parent.balance_factor == 0:
                 break
@@ -91,6 +100,48 @@ class AVL_Tree_Node:
             # Move to parent
             if isinstance(a.parent, AVL_Tree_Node):
                 a = a.parent
+
+    def _delete_rebalance(self, from_right):
+        # AVL Rebalancing - Delete case
+        a = self
+        rotated = False
+        while True:
+            # Move one step up now if a rotation just happened
+            if rotated:
+                if isinstance(a.parent, AVL_Tree_Node):
+                    if a.parent.right_child == a:
+                        from_right = True
+                    else:
+                        from_right = False
+                    a = a.parent
+                    rotated = False
+                    continue
+                else:
+                    break
+
+            # Balance factors
+            if from_right:
+                a.balance_factor -= 1
+            else:
+                a.balance_factor += 1
+
+            # Rotations
+            if a.balance_factor in {-2, 2}:
+                rotated = True
+                if a.do_rotations():
+                    break
+            elif a.balance_factor != 0:
+                break
+
+            # Move to parent
+            if isinstance(a.parent, AVL_Tree_Node):
+                if a.parent.right_child == a:
+                    from_right = True
+                else:
+                    from_right = False
+                a = a.parent
+            else:
+                break
 
     def insert(self, value):
         # Insert like in BST
@@ -218,47 +269,47 @@ class AVL_Tree_Node:
         y.balance_factor = 0
 
     def search(self, value):
+        if self.value is None:
+            return None
         if value == self.value:
             return self
         if value < self.value:
-            if self.left_tree is None:
+            if self.left_child is None:
                 return None
-            return self.left_tree.search(value)
+            return self.left_child.search(value)
 
         if value > self.value:
-            if self.right_tree is None:
-                return None
-            return self.right_tree.search(value)
-
-    def delete(self, value):
-        if value < self.value:
-            if self.left_child:
-                self.left_child.delete(value)
-        elif value > self.value:
-            if self.right_child:
-                self.right_child.delete(value)
-        else:
             if self.right_child is None:
-                if self.parent.left_child == self:
-                    self.parent.left_child = self.left_child
-                    self.left_child.parent = self.parent
-                else:
-                    self.parent.right_child = self.left_child
-                    self.left_child.parent = self.parent
-            if self.left_child is None:
-                if self.parent.left_child == self:
-                    self.parent.left_child = self.right_child
-                    self.right_child.parent = self.parent
-                else:
-                    self.parent.right_child = self.right_child
-                    self.right_child.parent = self.parent
+                return None
+            return self.right_child.search(value)
+
+    def delete(self):
+        if self.right_child is None or self.right_child is None:
+            self.delete_unconditional()
+        else:
             follower = self.right_child
             while follower.left_child:
                 follower = follower.left_child
             self.value = follower.value
-            if follower.parent.left_child == follower:
-                follower.parent.left_child = follower.right_child
-                follower.right_child.parent = follower.parent
-            else:
-                follower.parent.right_child = follower.right_child
-                follower.right_child.parent = follower.parent
+            follower.delete_unconditional()
+
+    def delete_unconditional(self):
+        if self.right_child is None:
+            child = self.left_child
+        else:
+            child = self.right_child
+
+        if isinstance(self.parent, AVL_Tree):
+            self.parent.root = child
+            if child:
+                child.parent = self.parent
+        elif self.parent.left_child == self:
+            self.parent.left_child = child
+            if child:
+                child.parent = self.parent
+            self.parent._delete_rebalance(from_right=False)
+        else:
+            self.parent.right_child = child
+            if child:
+                child.parent = self.parent
+            self.parent._delete_rebalance(from_right=True)

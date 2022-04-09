@@ -17,24 +17,7 @@ def test_time(process, table):
     return end_time - start_time
 
 
-def checker(tree_root, min, max):
-    if min < tree_root.value < max:
-        if not (tree_root.left_tree or tree_root.right_tree):
-            return True
-        if tree_root.left_tree:
-            left = checker(tree_root.left_tree, min, tree_root.value)
-        else:
-            left = True
-        if tree_root.right_tree:
-            right = checker(tree_root.right_tree, tree_root.value, max)
-        else:
-            right = True
-        return left and right
-    else:
-        return False
-
-
-def generate_and_save_graph(name, description, color, times):
+def generate_and_save_graph(name, description, times_bst, times_avl):
     keys = [i * 1000 for i in range(1, 11)]
     title = ""
     for letter in name:
@@ -43,12 +26,15 @@ def generate_and_save_graph(name, description, color, times):
         else:
             title += " "
     plt.plot(
-        keys, times, 'o-', label=f"{title}", markersize=3, color=color
+        keys, times_bst, 'o-', label="BST", markersize=3, color='b'
+    )
+    plt.plot(
+        keys, times_avl, 'o-', label="AVL", markersize=3, color='y'
     )
     plt.legend()
     plt.title(f"{title} - {description}")
     plt.xlabel("Number of elements")
-    plt.ylabel("Time of process in seconds")
+    plt.ylabel("Time in seconds")
     plt.xticks(keys, [str(element) for element in keys])
     plt.savefig(f"graph_{name.lower()}.png")
     plt.clf()

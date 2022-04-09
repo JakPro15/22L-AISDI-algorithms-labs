@@ -17,7 +17,7 @@ def get_subtree_height(node):
     return tree_height + 1
 
 
-def go_down_the_tree(node, max, min):
+def checker_avl(node, max, min):
     if node.left_child:
         left_height = get_subtree_height(node.left_child)
     else:
@@ -34,14 +34,14 @@ def go_down_the_tree(node, max, min):
     if min:
         assert node.value > min
     if node.left_child:
-        go_down_the_tree(node.left_child, min=min, max=node.value)
+        checker_avl(node.left_child, min=min, max=node.value)
     if node.right_child:
-        go_down_the_tree(node.right_child, min=node.value, max=max)
+        checker_avl(node.right_child, min=node.value, max=max)
 
 
 def test_basic_avl_tree_1():
     tree = AVL_Tree([1])
-    go_down_the_tree(tree.root, None, None)
+    checker_avl(tree.root, None, None)
     assert tree.root.parent is tree
     assert tree.root.value == 1
     assert tree.root.left_child is None
@@ -51,7 +51,7 @@ def test_basic_avl_tree_1():
 
 def test_basic_avl_tree_2():
     tree = AVL_Tree([1, 0])
-    go_down_the_tree(tree.root, None, None)
+    checker_avl(tree.root, None, None)
     assert tree.root.parent is tree
     assert tree.root.value == 1
     assert tree.root.right_child is None
@@ -66,7 +66,7 @@ def test_basic_avl_tree_2():
 
 def test_basic_avl_tree_3():
     tree = AVL_Tree([1, 0, 2])
-    go_down_the_tree(tree.root, None, None)
+    checker_avl(tree.root, None, None)
     assert tree.root.parent is tree
     assert tree.root.value == 1
     assert tree.root.balance_factor == 0
@@ -87,7 +87,7 @@ def test_basic_avl_tree_3():
 def test_basic_avl_tree_right_rotation():
     # Here a right rotation is needed
     tree = AVL_Tree([1, 0, -1])
-    go_down_the_tree(tree.root, None, None)
+    checker_avl(tree.root, None, None)
     assert tree.root.parent is tree
     assert tree.root.value == 0
     assert tree.root.balance_factor == 0
@@ -108,7 +108,7 @@ def test_basic_avl_tree_right_rotation():
 def test_basic_avl_tree_left_rotation():
     # Here a left rotation is needed
     tree = AVL_Tree([-1, 0, 1])
-    go_down_the_tree(tree.root, None, None)
+    checker_avl(tree.root, None, None)
     assert tree.root.parent is tree
     assert tree.root.value == 0
     assert tree.root.balance_factor == 0
@@ -129,7 +129,7 @@ def test_basic_avl_tree_left_rotation():
 def test_basic_avl_tree_left_right_rotation():
     # Here a left-right rotation is needed
     tree = AVL_Tree([1, -1, 0])
-    go_down_the_tree(tree.root, None, None)
+    checker_avl(tree.root, None, None)
     assert tree.root.parent is tree
     assert tree.root.value == 0
     assert tree.root.balance_factor == 0
@@ -150,7 +150,7 @@ def test_basic_avl_tree_left_right_rotation():
 def test_basic_avl_tree_right_left_rotation():
     # Here a right-left rotation is needed
     tree = AVL_Tree([-1, 1, 0])
-    go_down_the_tree(tree.root, None, None)
+    checker_avl(tree.root, None, None)
     assert tree.root.parent is tree
     assert tree.root.value == 0
     assert tree.root.balance_factor == 0
@@ -172,18 +172,39 @@ def test_sorted_list():
     values = list(range(1000))
     tree = AVL_Tree(values)
 
-    go_down_the_tree(tree.root, None, None)
+    checker_avl(tree.root, None, None)
+    for value in values:
+        assert tree.search([value])[0].value == value
+    for value in values:
+        tree.delete([value])
+        assert len(tree.search([value])) == 0
+        if tree.root:
+            checker_avl(tree.root, None, None)
 
 
 def test_random_list():
     values = [randint(0, 1000) for _ in range(1000)]
     tree = AVL_Tree(values)
 
-    go_down_the_tree(tree.root, None, None)
+    checker_avl(tree.root, None, None)
+    for value in values:
+        assert tree.search([value])[0].value == value
+    for value in values:
+        tree.delete([value])
+        assert len(tree.search([value])) == 0
+        if tree.root:
+            checker_avl(tree.root, None, None)
 
 
 def test_gauss_random_list():
     values = [gauss(500, 250) for _ in range(1000)]
     tree = AVL_Tree(values)
 
-    go_down_the_tree(tree.root, None, None)
+    checker_avl(tree.root, None, None)
+    for value in values:
+        assert tree.search([value])[0].value == value
+    for value in values:
+        tree.delete([value])
+        assert len(tree.search([value])) == 0
+        if tree.root:
+            checker_avl(tree.root, None, None)

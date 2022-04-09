@@ -7,7 +7,10 @@ class Binary_Search_Tree:
         if values:
             for value in values:
                 self.root.insert(value)
-        self.height = self.root.height()
+
+    @property
+    def height(self):
+        return self.root.height()
 
     def insert(self, values):
         if values:
