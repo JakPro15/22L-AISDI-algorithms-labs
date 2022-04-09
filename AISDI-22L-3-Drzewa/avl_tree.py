@@ -5,6 +5,13 @@ class AVL_Tree:
             for value in values:
                 self.root.insert(value)
 
+    @property
+    def height(self):
+        return self.root.height()
+
+    def max(self):
+        return self.root.max()
+
     def insert(self, value):
         self.root.insert(value)
 
@@ -22,8 +29,9 @@ class AVL_Tree:
         searched_values = []
         if values:
             for value in values:
-                if self.root.search(value):
-                    searched_values.append(self.root.search(value))
+                element = self.root.search(value)
+                if element:
+                    searched_values.append(element)
         return searched_values
 
     @staticmethod
@@ -58,6 +66,20 @@ class AVL_Tree_Node:
         # Fix balance factors if value was just inserted here
         if self.value is not None:
             self._insert_rebalance()
+
+    def height(self):
+        if self.left_tree and self.right_tree:
+            tree_height = max(
+                self.left_tree.height(),
+                self.right_tree.height()
+                )
+        elif self.left_tree:
+            tree_height = self.left_tree.height()
+        elif self.right_tree:
+            tree_height = self.right_tree.height()
+        else:
+            tree_height = 0
+        return tree_height + 1
 
     def do_rotations(self):
         if self.balance_factor == 2:
