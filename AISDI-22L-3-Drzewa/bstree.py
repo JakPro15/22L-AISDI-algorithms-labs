@@ -33,7 +33,8 @@ class Binary_Search_Tree:
             for value in values:
                 element = self.root.search(value)
                 if element:
-                    searched_values.append(element)
+                    if element.value:
+                        searched_values.append(element)
         return searched_values
 
     def print_tree(self):
@@ -121,19 +122,13 @@ class Binary_Search_Tree_Node:
         return self
 
     def search(self, value):
-        if self.value is None:
-            return None
-        if value == self.value:
-            return self
-        if value < self.value:
-            if self.left_tree is None:
-                return None
-            return self.left_tree.search(value)
-
-        if value > self.value:
-            if self.right_tree is None:
-                return None
-            return self.right_tree.search(value)
+        while (self is not None and self.value is not None and
+                value != self.value):
+            if value < self.value:
+                self = self.left_tree
+            else:
+                self = self.right_tree
+        return self
 
     def height(self):
         if self.left_tree and self.right_tree:
