@@ -103,25 +103,42 @@ class Binary_Search_Tree_Node:
                     break
 
     def delete(self, value):
-        if self.value is None:
+        current = self
+        previous = None
+        while(current is not None and current.value is not None and
+                current.value != value):
+            previous = current
+            if current.value < value:
+                current = current.right_tree
+            else:
+                current = current.left_tree
+        if current is None:
             return self
-        if value < self.value:
-            if self.left_tree:
-                self.left_tree = self.left_tree.delete(value)
-            return self
-        elif value > self.value:
-            if self.right_tree:
-                self.right_tree = self.right_tree.delete(value)
-            return self
-        if self.right_tree is None:
-            return self.left_tree
-        if self.left_tree is None:
-            return self.right_tree
-        follower = self.right_tree
-        while follower.left_tree:
-            follower = follower.left_tree
-        self.value = follower.value
-        self.right_tree = self.right_tree.delete(follower.value)
+        if current.left_tree is None or current.right_tree is None:
+            new_current = None
+            if current.left_tree is None:
+                new_current = current.right_tree
+            else:
+                new_current = current.left_tree
+            if previous is None:
+                return new_current
+            if current == previous.left_tree:
+                previous.left_tree = new_current
+            else:
+                previous.right_tree = new_current
+            current = None
+        else:
+            parent = None
+            follower = current.right_tree
+            while follower.left_tree is not None:
+                parent = follower
+                follower = follower.left_tree
+            if parent is not None:
+                parent.left_tree = follower.right_tree
+            else:
+                current.right_tree = follower.right_tree
+            current.value = follower.value
+            follower = None
         return self
 
     def search(self, value):
