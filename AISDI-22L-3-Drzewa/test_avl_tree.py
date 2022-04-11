@@ -169,7 +169,7 @@ def test_basic_avl_tree_right_left_rotation():
 
 
 def test_sorted_list():
-    values = list(range(1000))
+    values = list(range(5))
     tree = AVL_Tree(values)
 
     checker_avl(tree.root, None, None)

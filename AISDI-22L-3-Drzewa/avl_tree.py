@@ -194,17 +194,22 @@ class AVL_Tree_Node:
         # AVL rebalancing done in constructor of the new node
         if self.value is None:
             self.value = value
-        elif self.value == value:
-            return
-        elif value < self.value:
-            if self.left_child:
-                self.left_child.insert(value)
-            else:
-                AVL_Tree_Node(self, False, value)
-        elif self.right_child:
-            self.right_child.insert(value)
         else:
-            AVL_Tree_Node(self, True, value)
+            while value != self.value:
+                if value < self.value:
+                    if self.left_child is None:
+                        AVL_Tree_Node(self, False, value)
+                        break
+                    else:
+                        self = self.left_child
+                elif value > self.value:
+                    if self.right_child is None:
+                        AVL_Tree_Node(self, True, value)
+                        break
+                    else:
+                        self = self.right_child
+                else:
+                    break
 
     def _rotate_left(self, set_factors=True):
         x = self.parent
@@ -317,17 +322,12 @@ class AVL_Tree_Node:
     def search(self, value):
         if self.value is None:
             return None
-        if value == self.value:
-            return self
-        if value < self.value:
-            if self.left_child is None:
-                return None
-            return self.left_child.search(value)
-
-        if value > self.value:
-            if self.right_child is None:
-                return None
-            return self.right_child.search(value)
+        while (self is not None and value != self.value):
+            if value < self.value:
+                self = self.left_child
+            else:
+                self = self.right_child
+        return self
 
     def delete(self):
         if self.right_child is None or self.right_child is None:
