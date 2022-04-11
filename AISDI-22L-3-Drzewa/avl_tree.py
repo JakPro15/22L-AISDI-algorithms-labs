@@ -21,12 +21,11 @@ class AVL_Tree:
     def delete(self, values):
         if values:
             for value in values:
-                if self.root:
-                    element = self.root.search(value)
-                    if element:
-                        element.delete()
-                        if self.root is None:
-                            self.root = AVL_Tree_Node(self, None, None)
+                element = self.root.search(value)
+                if element:
+                    element.delete()
+                    if self.root is None:
+                        self.root = AVL_Tree_Node(self, None, None)
 
     def search(self, values):
         searched_values = []

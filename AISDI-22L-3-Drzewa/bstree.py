@@ -83,21 +83,24 @@ class Binary_Search_Tree_Node:
             return self.value
 
     def insert(self, value):
-        if not self.value:
+        if self.value is None:
             self.value = value
-            return
-        elif self.value == value:
-            return
-        elif value < self.value:
-            if self.left_tree:
-                self.left_tree.insert(value)
-                return
-            self.left_tree = Binary_Search_Tree_Node(value)
-            return
-        if self.right_tree:
-            self.right_tree.insert(value)
-            return
-        self.right_tree = Binary_Search_Tree_Node(value)
+        else:
+            while value != self.value:
+                if value < self.value:
+                    if self.left_tree is None:
+                        self.left_tree = Binary_Search_Tree_Node(value)
+                        break
+                    else:
+                        self = self.left_tree
+                elif value > self.value:
+                    if self.right_tree is None:
+                        self.right_tree = Binary_Search_Tree_Node(value)
+                        break
+                    else:
+                        self = self.right_tree
+                else:
+                    break
 
     def delete(self, value):
         if self.value is None:
