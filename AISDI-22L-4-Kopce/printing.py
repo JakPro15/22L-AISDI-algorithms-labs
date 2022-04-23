@@ -1,3 +1,7 @@
+from heaps import insert_list
+from sys import argv
+
+
 def get_max_digits(heap):
     digits_list = [len(str(val)) for val in heap]
     digits = max(digits_list)
@@ -9,7 +13,7 @@ def get_max_digits(heap):
 
 def print_heap(heap, dim: int):
     lines = [[]]
-    index = 0
+    index = 1
     line_index = 0
     while index < len(heap):
         if line_index == len(lines):
@@ -55,4 +59,8 @@ def print_heap(heap, dim: int):
         print(numbers)
 
 
-print_heap([i + 100 for i in range(40)], 3)
+dim = int(argv[1])
+size = int(argv[2])
+heap = [None]
+insert_list(heap, list(range(size)), dim)
+print_heap(heap, dim)
