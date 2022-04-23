@@ -37,8 +37,8 @@ def extract(heap, dimension):
 
 
 def biggest_child_index(heap, n, dimension):
-    biggest_child = 2 * n
-    for k in range(2 * n, 2 * n + dimension):
+    biggest_child = dimension * (n - 1) + 2
+    for k in range(biggest_child, biggest_child + dimension):
         if heap[k] > heap[biggest_child]:
             biggest_child = k
     return biggest_child
