@@ -28,10 +28,24 @@ def print_heap(heap, dim: int):
             underscores = ' ' * (dist // 2 + n // 2 + 1)
             for j, val in enumerate(line):
                 if j % dim == 0:
-                    underscores += '_' * ((dim - 1) * (dist + n) - 1)
+                    underscores += '_' * (((dim - 1) * (dist + n) - 1) // 2)
+                    underscores += '⊥'
+                    underscores += '_' * (((dim - 1) * (dist + n) - 1) // 2)
                 elif j % dim == dim - 1 and j != len(line) - 1:
                     underscores += ' ' * (dist + n + 1)
             print(underscores)
+
+            slashes = ' ' * (dist // 2 + n // 2)
+            for j, val in enumerate(line):
+                if j % dim == 0:
+                    slashes += '/'
+                elif j % dim == dim - 1:
+                    slashes += '\\'
+                else:
+                    slashes += '|'
+                if j != len(line) - 1:
+                    slashes += ' ' * (dist + n - 1)
+            print(slashes)
 
         numbers = ' ' * (dist // 2)
         for j, val in enumerate(line):
@@ -41,4 +55,4 @@ def print_heap(heap, dim: int):
         print(numbers)
 
 
-print_heap([i + 100 for i in range(63)], 2)
+print_heap([i + 100 for i in range(40)], 3)
