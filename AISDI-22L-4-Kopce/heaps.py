@@ -2,11 +2,11 @@ def insert(heap, value, dimension):
     if value not in heap:
         heap.append(value)
         element = len(heap) - 1
-        parent = max(element // dimension, 1)
+        parent = max((element - 2) // dimension + 1, 1)
         while (heap[parent] < value):
             heap[parent], heap[element] = heap[element], heap[parent]
             element = parent
-            parent = max(element // dimension, 1)
+            parent = max((element - 2) // dimension + 1, 1)
 
 
 def extract(heap, dimension):
