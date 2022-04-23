@@ -14,6 +14,7 @@ def extract(heap, dimension):
         if len(heap) != 2:
             element = len(heap) - 1
             heap[1], heap[element] = heap[element], heap[1]
+            heap.pop()
             all_ok = False
             while not all_ok:
                 n = 1
@@ -33,7 +34,6 @@ def extract(heap, dimension):
                         if heap[largest] < heap[k]:
                             largest = k
                     heap[n], heap[largest] = heap[largest], heap[n]
-        heap.pop()
 
 
 def biggest_child_index(heap, n, dimension):
