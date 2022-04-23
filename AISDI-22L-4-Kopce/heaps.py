@@ -24,6 +24,7 @@ def extract(heap, dimension):
                 biggest_child = heap.index(max(heap[2:1 + dimension]))
                 heap[1], heap[biggest_child] = heap[biggest_child], heap[1]
     else:
-        if heap[1] != max(heap[1:]):
-            biggest_child = heap.index(max(heap[1:]))
-            heap[1], heap[biggest_child] = heap[biggest_child], heap[1]
+        if len(heap) != 1:
+            if heap[1] != max(heap[1:]):
+                biggest_child = heap.index(max(heap[1:]))
+                heap[1], heap[biggest_child] = heap[biggest_child], heap[1]
