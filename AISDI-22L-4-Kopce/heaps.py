@@ -37,3 +37,13 @@ def biggest_child_index(heap, dimension):
         if heap[k] > heap[biggest_child]:
             biggest_child = k
     return biggest_child
+
+
+def insert_list(heap, array, dimension):
+    for element in array:
+        insert(heap, element, dimension)
+
+
+def extract_n(heap, amount, dimension):
+    for _ in range(amount):
+        extract(heap, dimension)
