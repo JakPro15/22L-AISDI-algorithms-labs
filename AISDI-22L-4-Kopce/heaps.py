@@ -16,8 +16,8 @@ def extract(heap, dimension):
             heap[1], heap[element] = heap[element], heap[1]
             heap.pop()
             all_ok = False
+            n = 1
             while not all_ok:
-                n = 1
                 all_ok = True
                 if len(heap) >= dimension * n + 2:
                     for k in range(dimension):
@@ -30,7 +30,7 @@ def extract(heap, dimension):
                         n = b_child
                 else:
                     largest = n
-                    for k in range(n + 1, len(heap)):
+                    for k in range(dimension * (n - 1) + 2, len(heap)):
                         if heap[largest] < heap[k]:
                             largest = k
                     heap[n], heap[largest] = heap[largest], heap[n]
