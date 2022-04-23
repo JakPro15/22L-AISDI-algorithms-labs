@@ -19,9 +19,9 @@ def extract(heap, dimension):
             while not all_ok:
                 n = 1
                 all_ok = True
-                if len(heap) >= dimension * (n + 1):
+                if len(heap) >= dimension * n + 2:
                     for k in range(dimension):
-                        if heap[n] < heap[dimension * n + k]:
+                        if heap[n] < heap[dimension * (n - 1) + 2 + k]:
                             all_ok = False
                             break
                     if not all_ok:
