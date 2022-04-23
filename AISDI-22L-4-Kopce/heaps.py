@@ -1,8 +1,8 @@
 def insert(heap, value, dimension):
     if value not in heap:
         heap.append(value)
-        parent = max(heap.index(value) // dimension, 1)
         element = len(heap) - 1
+        parent = max(element // dimension, 1)
         while (heap[parent] < value):
             heap[parent], heap[element] = heap[element], heap[parent]
             element = parent
