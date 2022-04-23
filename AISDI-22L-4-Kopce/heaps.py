@@ -10,30 +10,35 @@ def insert(heap, value, dimension):
 
 
 def extract(heap, dimension):
-    element = len(heap) - 1
-    heap[1], heap[element] = heap[element], heap[1]
-    heap.pop()
-    all_ok = False
-    if len(heap) >= dimension + 2:
-        while not all_ok:
-            all_ok = True
-            for k in range(dimension):
-                if heap[1] < heap[2 + k]:
-                    all_ok = False
-                    break
-            if not all_ok:
-                biggest_child = biggest_child_index(heap, dimension)
-                heap[1], heap[biggest_child] = heap[biggest_child], heap[1]
-    else:
-        if len(heap) != 1:
-            if heap[1] != max(heap):
-                biggest_child = heap.index(max(heap))
-                heap[1], heap[biggest_child] = heap[biggest_child], heap[1]
+    if len(heap) > 1:
+        if len(heap) != 2:
+            element = len(heap) - 1
+            heap[1], heap[element] = heap[element], heap[1]
+            all_ok = False
+            while not all_ok:
+                n = 1
+                all_ok = True
+                if len(heap) >= dimension * (n + 1):
+                    for k in range(dimension):
+                        if heap[n] < heap[dimension * n + k]:
+                            all_ok = False
+                            break
+                    if not all_ok:
+                        b_child = biggest_child_index(heap, n, dimension)
+                        heap[n], heap[b_child] = heap[b_child], heap[n]
+                        n = b_child
+                else:
+                    largest = n
+                    for k in range(n + 1, len(heap)):
+                        if heap[largest] < heap[k]:
+                            largest = k
+                    heap[n], heap[largest] = heap[largest], heap[n]
+        heap.pop()
 
 
-def biggest_child_index(heap, dimension):
-    biggest_child = 2
-    for k in range(2, 2 + dimension):
+def biggest_child_index(heap, n, dimension):
+    biggest_child = 2 * n
+    for k in range(2 * n, 2 * n + dimension):
         if heap[k] > heap[biggest_child]:
             biggest_child = k
     return biggest_child

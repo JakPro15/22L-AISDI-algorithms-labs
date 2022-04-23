@@ -39,7 +39,7 @@ if __name__ == "__main__":
         times_extract_2.append(total_time)
 
     generate_and_save_graph(
-        "Create heap",
+        "Create_heap",
         "time of creation depending on list's length",
         times_create_2,
         times_create_3,
@@ -47,9 +47,9 @@ if __name__ == "__main__":
         )
 
     generate_and_save_graph(
-        "Extract root",
+        "Extract_root",
         "time of extraction of largest elements depending on their amount",
-        times_create_2,
-        times_create_3,
-        times_create_4
+        times_extract_2,
+        times_extract_3,
+        times_extract_4
         )
