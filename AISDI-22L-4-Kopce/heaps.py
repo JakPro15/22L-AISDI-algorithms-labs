@@ -20,11 +20,20 @@ def extract(heap, dimension):
             for k in range(dimension):
                 if heap[1] < heap[2 + k]:
                     all_ok = False
+                    break
             if not all_ok:
-                biggest_child = heap.index(max(heap[2:1 + dimension]))
+                biggest_child = biggest_child_index(heap, dimension)
                 heap[1], heap[biggest_child] = heap[biggest_child], heap[1]
     else:
         if len(heap) != 1:
-            if heap[1] != max(heap[1:]):
-                biggest_child = heap.index(max(heap[1:]))
+            if heap[1] != max(heap):
+                biggest_child = heap.index(max(heap))
                 heap[1], heap[biggest_child] = heap[biggest_child], heap[1]
+
+
+def biggest_child_index(heap, dimension):
+    biggest_child = 2
+    for k in range(2, 2 + dimension):
+        if heap[k] > heap[biggest_child]:
+            biggest_child = k
+    return biggest_child

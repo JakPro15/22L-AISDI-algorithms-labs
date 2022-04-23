@@ -1,6 +1,6 @@
 from heaps import insert, extract
 
-heap = [None]
+heap = [-1]
 insert(heap, 5, 2)
 print(heap[1:])
 insert(heap, 2, 2)
