@@ -3,12 +3,12 @@ import time
 from matplotlib import pyplot as plt
 
 
-def test_time(process):
+def test_time(process, *args):
     gc_old = gc.isenabled()
     gc.disable()
 
     start_time = time.process_time()
-    process
+    process(*args)
     end_time = time.process_time()
 
     if gc_old:
