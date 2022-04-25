@@ -6,7 +6,7 @@ def check_heap(heap: list, index: int, dim: int):
     first = dim * (index - 1) + 2
     for i in range(dim):
         if first + i < len(heap):
-            assert heap[first + i] < heap[index]
+            assert heap[first + i] <= heap[index]
             check_heap(heap, first + i, dim)
 
 
