@@ -14,36 +14,22 @@ def extract(heap, dimension):
             element = len(heap) - 1
             heap[1], heap[element] = heap[element], heap[1]
             heap.pop()
-            all_ok = False
-            n = 1
-            while not all_ok:
-                all_ok = True
-                first_child = dimension * (n - 1) + 2
-                if len(heap) >= first_child + dimension:
-                    for k in range(dimension):
-                        if heap[n] < heap[first_child + k]:
-                            all_ok = False
-                            break
-                    if not all_ok:
-                        b_child = biggest_child_index(
-                            heap, dimension, first_child
-                        )
-                        heap[n], heap[b_child] = heap[b_child], heap[n]
-                        n = b_child
+
+            parent = 1
+            while True:
+                first_child = dimension * (parent - 1) + 2
+                range_end = min(len(heap), first_child + dimension)
+
+                biggest = parent
+                for child in range(first_child, range_end):
+                    if heap[child] > heap[biggest]:
+                        biggest = child
+                
+                if biggest == parent:
+                    break
                 else:
-                    largest = n
-                    for k in range(first_child, len(heap)):
-                        if heap[largest] < heap[k]:
-                            largest = k
-                    heap[n], heap[largest] = heap[largest], heap[n]
-
-
-def biggest_child_index(heap, dimension, first_child):
-    biggest_child = first_child
-    for k in range(biggest_child, biggest_child + dimension):
-        if heap[k] > heap[biggest_child]:
-            biggest_child = k
-    return biggest_child
+                    heap[parent], heap[biggest] = heap[biggest], heap[parent]
+                    parent = biggest
 
 
 def insert_list(heap, array, dimension):
