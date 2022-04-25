@@ -19,7 +19,7 @@ def extract(heap, dimension):
             while not all_ok:
                 all_ok = True
                 first_child = dimension * (n - 1) + 2
-                if len(heap) >= dimension * n + 2:
+                if len(heap) >= first_child + dimension:
                     for k in range(dimension):
                         if heap[n] < heap[first_child + k]:
                             all_ok = False
