@@ -57,7 +57,7 @@ butów dawać, więc tam przestali wysyłać tylko do sklepów do Polski.
 Ludzie na przystanku śmiechają pod nosami i się patrzą na moje buty, ja już gula w gardle
 i staram się jakoś jeden za drugim schować ale to nic nie daje. Ale jednak pomyślałem,
 że nie dam sobą pomiatać nawet znanemu człowiekowi i krzyczę na Wojciecha, że on sam
-przecież boso przez świat chodzi więc nie ma prawa się do moich butów przypierdalać. 
+przecież boso przez świat chodzi więc nie ma prawa się do moich butów przyczepiać.   
 Cejrowski w śmiech i mówi, że boso to on chodzi w eleganckich krajach zagranicznych a
 nie w Polsce gdzie co 5 metrów można w psie gówno wejść albo jakąś strzykawkę z HIV,
 i że po Polsce to on chodzi w porządnych butach i pokazuje mi swoje buty z jakimiś
@@ -143,15 +143,15 @@ def test_cejrowski_n():
 
     string = "boso"
     pos = n.find(string, text)
-    assert pos == [2121, 2228, 2727]
+    assert pos == [2112, 2219, 2718]
 
     string = "Cejrowski"
     pos = n.find(string, text)
-    assert pos == [880, 1212, 1296, 1430, 2198, 2805, 3110, 3351, 3912]
+    assert pos == [880, 1212, 1296, 1430, 2189, 2796, 3101, 3342, 3903]
 
     string = "Nepal"
     pos = n.find(string, text)
-    assert pos == [3993]
+    assert pos == [3984]
 
 
 def test_cejrowski_kr():
@@ -159,15 +159,15 @@ def test_cejrowski_kr():
 
     string = "boso"
     pos = kr.find(string, text)
-    assert pos == [2121, 2228, 2727]
+    assert pos == [2112, 2219, 2718]
 
     string = "Cejrowski"
     pos = kr.find(string, text)
-    assert pos == [880, 1212, 1296, 1430, 2198, 2805, 3110, 3351, 3912]
+    assert pos == [880, 1212, 1296, 1430, 2189, 2796, 3101, 3342, 3903]
 
     string = "Nepal"
     pos = kr.find(string, text)
-    assert pos == [3993]
+    assert pos == [3984]
 
 
 def test_cejrowski_kmp():
@@ -175,15 +175,15 @@ def test_cejrowski_kmp():
 
     string = "boso"
     pos = kmp.find(string, text)
-    assert pos == [2121, 2228, 2727]
+    assert pos == [2112, 2219, 2718]
 
     string = "Cejrowski"
     pos = kmp.find(string, text)
-    assert pos == [880, 1212, 1296, 1430, 2198, 2805, 3110, 3351, 3912]
+    assert pos == [880, 1212, 1296, 1430, 2189, 2796, 3101, 3342, 3903]
 
     string = "Nepal"
     pos = kmp.find(string, text)
-    assert pos == [3993]
+    assert pos == [3984]
 
 
 def test_numbers_n():
@@ -232,3 +232,39 @@ def test_numbers_kmp():
     string = "Nepal"
     pos = kmp.find(string, text)
     assert pos == []
+
+
+from random import randint
+
+
+def test_random_comparison_n_kr():
+    text = ""
+    for _ in range(100):
+        text += str(randint(100))
+    for i in range(100):
+        string = str(i)
+        pos_n = n.find(string, text)
+        pos_kr = kr.find(string, text)
+        assert pos_n == pos_kr
+
+
+def test_random_comparison_n_kmp():
+    text = ""
+    for _ in range(100):
+        text += str(randint(100))
+    for i in range(100):
+        string = str(i)
+        pos_n = n.find(string, text)
+        pos_kmp = kmp.find(string, text)
+        assert pos_n == pos_kmp
+
+
+def test_random_comparison_kr_kmp():
+    text = ""
+    for _ in range(100):
+        text += str(randint(100))
+    for i in range(100):
+        string = str(i)
+        pos_kr = kr.find(string, text)
+        pos_kmp = kmp.find(string, text)
+        assert pos_kr == pos_kmp
