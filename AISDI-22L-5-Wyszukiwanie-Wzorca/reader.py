@@ -1,7 +1,6 @@
-def prepare_text(text_file, letter_limit):
+def prepare_text(text_file):
     with open(text_file, "r") as file:
         text = file.read()
-        text = text[:letter_limit]
     return text
 
 
