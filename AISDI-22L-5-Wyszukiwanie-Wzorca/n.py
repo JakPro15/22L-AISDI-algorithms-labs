@@ -1,6 +1,6 @@
 def find (string, text):
     """
-    N Algorithm
+    Naive Algorithm
     Parameters:
     string (str): szukany napis
     text (str): przeszukiwany tekst
@@ -10,9 +10,6 @@ def find (string, text):
     """
     results = []
     for i in range(len(text) - len(string) + 1):
-        if i == 2218:
-            i = 2218
-        tested = text[i:(i + len(string))]
-        if tested == string:
+        if text[i:(i + len(string))] == string:
             results.append(i)
     return results
