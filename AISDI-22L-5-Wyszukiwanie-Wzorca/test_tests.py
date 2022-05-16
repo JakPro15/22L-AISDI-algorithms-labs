@@ -240,7 +240,7 @@ from random import randint
 def test_random_comparison_n_kr():
     text = ""
     for _ in range(100):
-        text += str(randint(100))
+        text += str(randint(0, 100))
     for i in range(100):
         string = str(i)
         pos_n = n.find(string, text)
@@ -251,7 +251,7 @@ def test_random_comparison_n_kr():
 def test_random_comparison_n_kmp():
     text = ""
     for _ in range(100):
-        text += str(randint(100))
+        text += str(randint(0, 100))
     for i in range(100):
         string = str(i)
         pos_n = n.find(string, text)
@@ -262,7 +262,7 @@ def test_random_comparison_n_kmp():
 def test_random_comparison_kr_kmp():
     text = ""
     for _ in range(100):
-        text += str(randint(100))
+        text += str(randint(0, 100))
     for i in range(100):
         string = str(i)
         pos_kr = kr.find(string, text)
