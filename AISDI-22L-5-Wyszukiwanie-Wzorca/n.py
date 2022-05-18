@@ -1,4 +1,4 @@
-def find (string, text):
+def find(string, text):
     """
     Naive Algorithm
     Parameters:

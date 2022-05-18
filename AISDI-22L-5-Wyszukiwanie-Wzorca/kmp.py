@@ -12,33 +12,30 @@ def find(string, text):
             j += 1
             if j == len(string):
                 positions.append(i - j)
-                j = match_table[j]
-        else:
-            j = match_table[j]
-            if j < 0:
+                j = match_table[j - 1]
+        elif i < len(text) and string[j] != text[i]:
+            if j:
+                j = match_table[j - 1]
+            else:
                 i += 1
-                j += 1
     return positions
 
 
 def compute_match_table_array(string):
 
-    position = 1
-    string_index = 0
+    match_table = [0] * len(string)
+    suffix_len = 0
+    i = 1
 
-    match_table = [-1] * (len(string) + 1)
-    match_table[0] = -1
-
-    while position < len(string):
-        if string[position] == string[string_index]:
-            match_table[position] = match_table[string_index]
+    while i < len(string):
+        if string[i] == string[suffix_len]:
+            suffix_len += 1
+            match_table[i] = suffix_len
+            i += 1
         else:
-            match_table[position] == string_index
-            while (string_index >= 0 and
-                    string[position] != string[string_index]):
-                string_index = match_table[string_index]
-        position += 1
-        string_index += 1
-
-    match_table[position] = string_index
+            if suffix_len != 0:
+                suffix_len = match_table[suffix_len - 1]
+            else:
+                match_table[i] = 0
+                i += 1
     return match_table
