@@ -1,3 +1,10 @@
+def compare(string, text, begin):
+    for i in range(len(string)):
+        if text[begin + i] != string[i]:
+            return False
+    return True
+
+
 def find(string, text):
     """
     Naive Algorithm
@@ -10,6 +17,6 @@ def find(string, text):
     """
     results = []
     for i in range(len(text) - len(string) + 1):
-        if text[i:(i + len(string))] == string:
+        if compare(string, text, i):
             results.append(i)
     return results

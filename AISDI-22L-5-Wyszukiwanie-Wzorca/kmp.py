@@ -1,4 +1,6 @@
 def find(string, text):
+    if string == "":
+        return list(range(len(text)))
 
     positions = []
     i = 0
