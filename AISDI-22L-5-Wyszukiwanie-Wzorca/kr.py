@@ -2,13 +2,6 @@ BASE = 128  # ASCII characters fit, polish signs don't - I assume they are rare
 PRIME_MODULUS = 48247
 
 
-def compare(string, text, begin):
-    for i in range(len(string)):
-        if text[begin + i] != string[i]:
-            return False
-    return True
-
-
 def hash(string, length, begin=0):
     result = ord(string[begin])
     for i in range(1, length):
@@ -35,18 +28,19 @@ def find(string, text):
     (list): lista pozycji w 'text' (w kolejności rosnącej), od
     których zaczyna się 'string'
     """
-    base_offset = (BASE ** (len(string) - 1)) % PRIME_MODULUS
-
     if string == "":
         return list(range(len(text)))
     if len(text) < len(string):
         return []
+
+    base_offset = (BASE ** (len(string) - 1)) % PRIME_MODULUS
+
     results = []
     string_hash = hash(string, len(string))
-    current_hash = hash(text, len(string))
+    current_hash = hash(text, len(string), 0)
 
     if string_hash == current_hash:
-        if compare(string, text, 0):
+        if string == text[0:len(string)]:
             results.append(0)
 
     for i in range(1, len(text) - len(string) + 1):
@@ -54,6 +48,6 @@ def find(string, text):
             current_hash, text[i - 1], text[i + len(string) - 1], base_offset
         )
         if current_hash == string_hash:
-            if compare(string, text, i):
+            if string == text[i:i + len(string)]:
                 results.append(i)
     return results

@@ -15,7 +15,7 @@ def find(string, text):
             if j == len(string):
                 positions.append(i - j)
                 j = match_table[j - 1]
-        elif i < len(text) and string[j] != text[i]:
+        elif i < len(text):
             if j:
                 j = match_table[j - 1]
             else:
@@ -24,7 +24,6 @@ def find(string, text):
 
 
 def compute_match_table_array(string):
-
     match_table = [0] * len(string)
     suffix_len = 0
     i = 1
