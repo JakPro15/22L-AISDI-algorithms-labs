@@ -7,9 +7,9 @@ if __name__ == "__main__":
     print("Graph 1\n")
     tiles = read_file("graf1.txt")
     zeros = []
-    for y in tiles:
-        for x in tiles:
-            if tiles[y][x] == 0:
+    for x, line in enumerate(tiles):
+        for y in range(len(line)):
+            if tiles[x][y] == 0:
                 zeros.append((x, y))
     path = dijkstra(tiles, zeros[0], zeros[1])
     path_tiles = show_path(tiles, path)
@@ -21,9 +21,9 @@ if __name__ == "__main__":
     print("Graph 2\n")
     tiles = read_file("graf2.txt")
     zeros = []
-    for y in tiles:
-        for x in tiles:
-            if tiles[y][x] == 0:
+    for x, line in enumerate(tiles):
+        for y in range(len(line)):
+            if tiles[x][y] == 0:
                 zeros.append((x, y))
     path = dijkstra(tiles, zeros[0], zeros[1])
     path_tiles = show_path(tiles, path)
@@ -34,12 +34,12 @@ if __name__ == "__main__":
     print('\n')
     print("Graph 3\n")
     tiles = read_file("graf3.txt")
-    path = dijkstra(tiles, zeros[0], zeros[1])
-    for y in tiles:
-        for x in tiles:
-            if tiles[y][x] == 0:
+    zeros = []
+    for x, line in enumerate(tiles):
+        for y in range(len(line)):
+            if tiles[x][y] == 0:
                 zeros.append((x, y))
-    path = []
+    path = dijkstra(tiles, zeros[0], zeros[1])
     path_tiles = show_path(tiles, path)
     print_tiles(tiles)
     print('\n')

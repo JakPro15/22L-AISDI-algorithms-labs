@@ -1,7 +1,7 @@
 def show_path(tiles, path):
-    path_tiles = [[" " for tile in line] for line in tiles]
+    path_tiles = [["." for tile in line] for line in tiles]
     for point in path:
-        path_tiles[point[1]][point[0]] = tiles[point[1]][point[0]]
+        path_tiles[point[0]][point[1]] = tiles[point[0]][point[1]]
     return path_tiles
 
 
