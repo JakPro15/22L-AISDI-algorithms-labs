@@ -21,11 +21,14 @@ class Ended(Exception):
     pass
 
 
-def relax(graph, previouses, prioqueue, visited, distances, src_tile, dst_tile):
-    new_distance = distances[src_tile[0]][src_tile[1]] + graph[src_tile[0]][src_tile[1]]
+def relax(graph, previouses, prioqueue, visited, distances,
+          src_tile, dst_tile):
+    new_distance = distances[src_tile[0]][src_tile[1]] + \
+        graph[src_tile[0]][src_tile[1]]
     if distances[dst_tile[0]][dst_tile[1]] > new_distance:
         if not visited[dst_tile[0]][dst_tile[1]]:
-            heappush(prioqueue, PrioritizedNode(dst_tile[0], dst_tile[1], new_distance))
+            heappush(prioqueue,
+                     PrioritizedNode(dst_tile[0], dst_tile[1], new_distance))
         distances[dst_tile[0]][dst_tile[1]] = new_distance
         previouses[dst_tile[0]][dst_tile[1]] = src_tile
 
