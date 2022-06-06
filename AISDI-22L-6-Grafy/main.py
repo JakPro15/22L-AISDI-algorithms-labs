@@ -15,11 +15,15 @@ def find_zeros(tiles):
 
 if __name__ == "__main__":
     if(len(argv) != 2):
-        print("The program takes exactly 1 argument.")
+        print("The program takes exactly 1 argument - name of the "
+              "file containing the table.")
     else:
-        tiles = read_file(argv[1])
-        zeros = find_zeros(tiles)
-        path = dijkstra(tiles, zeros[0], zeros[1])
-        path_tiles = show_path(tiles, path)
-        print_tiles(path_tiles)
+        try:
+            tiles = read_file(argv[1])
+            zeros = find_zeros(tiles)
+            path = dijkstra(tiles, zeros[0], zeros[1])
+            path_tiles = show_path(tiles, path)
+            print_tiles(path_tiles)
+        except FileNotFoundError:
+            print("The given file does not exist or could not be opened.")
  
