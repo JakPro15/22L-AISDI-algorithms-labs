@@ -17,10 +17,6 @@ class PrioritizedNode:
         return self.distance < other.distance
 
 
-class Ended(Exception):
-    pass
-
-
 def relax(graph, previouses, prioqueue, visited, distances,
           src_tile, dst_tile):
     new_distance = distances[src_tile[0]][src_tile[1]] + \
@@ -44,7 +40,6 @@ def dijkstra(graph: "list[list[int]]", src, dst):
         visited.append([])
         for y in range(len(line)):
             if (x, y) != src:
-                heappush(prioqueue, PrioritizedNode(x, y, inf))
                 distances[x].append(inf)
             else:
                 heappush(prioqueue, PrioritizedNode(x, y, 0))
